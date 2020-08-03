@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FAFAFA"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical"
+        tools:context=".MVP.SignUp.SignUp">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guide_line_center"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guide_line_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.96" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guide_line_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.06" />
+
+
+        <TextView
+            android:id="@+id/sign_up_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_18sdp"
+            android:fontFamily="@font/cairo_bold"
+            android:gravity="center"
+            android:text="@string/account_type_text"
+            android:textColor="@color/verdigris"
+            android:textSize="@dimen/_20ssp"
+            app:layout_constraintStart_toStartOf="@id/guide_line_start"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_view_rented"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_130sdp"
+            android:layout_margin="@dimen/_10sdp"
+            android:checkable="true"
+            android:clickable="true"
+            android:focusable="true"
+            android:theme="@style/Theme.MaterialComponents.DayNight.Bridge"
+            app:checkedIcon="@drawable/checked"
+            app:checkedIconTint="@color/verdigris"
+            app:layout_constraintEnd_toEndOf="@id/guide_line_center"
+            app:layout_constraintStart_toStartOf="@id/guide_line_start"
+            app:layout_constraintTop_toBottomOf="@id/sign_up_text">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/_90sdp"
+                    android:layout_height="@dimen/_80sdp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/rented" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/rented"
+                    android:textColor="@color/verdigris"
+                    android:textSize="@dimen/_16sdp" />
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_view_tenant"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_130sdp"
+            android:layout_margin="@dimen/_10sdp"
+            android:checkable="true"
+            android:clickable="true"
+            android:focusable="true"
+            android:theme="@style/Theme.MaterialComponents.DayNight.Bridge"
+            app:checkedIcon="@drawable/checked"
+            app:checkedIconTint="@color/verdigris"
+            app:layout_constraintEnd_toEndOf="@id/guide_line_end"
+            app:layout_constraintStart_toStartOf="@id/guide_line_center"
+            app:layout_constraintTop_toBottomOf="@id/sign_up_text">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/_90sdp"
+                    android:layout_height="@dimen/_80sdp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/tenant" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/tenant"
+                    android:textColor="@color/verdigris"
+                    android:textSize="@dimen/_16sdp" />
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+        <LinearLayout
+            android:id="@+id/rented_edits"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            app:layout_constraintEnd_toStartOf="@id/guide_line_end"
+            app:layout_constraintStart_toStartOf="@id/guide_line_start"
+            app:layout_constraintTop_toBottomOf="@id/card_view_rented">
+
+            <com.reginald.editspinner.EditSpinner
+                android:id="@+id/account_type_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="@drawable/bac_edit"
+                android:drawableStart="@drawable/arrow"
+                android:editable="false"
+                android:fontFamily="@font/cairo_bold"
+                android:gravity="center_vertical|left"
+                android:hint="@string/account_type"
+                android:layoutDirection="rtl"
+                android:padding="@dimen/_12sdp"
+                android:textColor="@color/taupe_1"
+                android:textColorHint="@color/manatee"
+                android:textSize="@dimen/_12ssp"
+                android:textStyle="bold"
+                app:dropDownDrawableHeight="@dimen/_6sdp"
+                app:dropDownDrawableSpacing="@dimen/_15sdp"
+                app:dropDownDrawableWidth="@dimen/_10sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+
+                />
+
+            <EditText
+                android:id="@+id/rented_name_edit"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="@drawable/bac_edit"
+                android:gravity="center_vertical"
+                android:hint="@string/rented_name"
+                android:inputType="text"
+                android:padding="@dimen/_12sdp"
+                android:textColor="@color/taupe_1"
+                android:textColorHint="@color/manatee"
+                android:textSize="@dimen/_12ssp" />
+
+            <EditText
+                android:id="@+id/phone_edit"
+                android:maxLength="11"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="@drawable/bac_edit"
+                android:gravity="center_vertical"
+                android:hint="@string/phone_number"
+                android:inputType="phone"
+                android:padding="@dimen/_12sdp"
+                android:textColor="@color/davygrey"
+                android:textColorHint="@color/manatee"
+                android:textSize="@dimen/_12ssp"
+                app:layout_constraintEnd_toStartOf="@id/guide_line_end"
+                app:layout_constraintStart_toStartOf="@id/guide_line_start"
+                app:layout_constraintTop_toBottomOf="@id/pass_edit" />
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/email_edit"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@drawable/bac_edit"
+            android:gravity="center_vertical"
+            android:hint="@string/email"
+            android:inputType="textEmailAddress"
+            android:padding="@dimen/_12sdp"
+            android:textColor="@color/davygrey"
+            android:textColorHint="@color/manatee_1"
+            android:textSize="@dimen/_14ssp"
+            app:layout_constraintEnd_toStartOf="@id/guide_line_end"
+            app:layout_constraintStart_toStartOf="@id/guide_line_start"
+            app:layout_constraintTop_toBottomOf="@id/rented_edits" />
+
+        <EditText
+            android:id="@+id/pass_edit"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@drawable/bac_edit"
+            android:drawableEnd="@drawable/hide_pass"
+            android:gravity="center_vertical"
+            android:hint="@string/password"
+            android:inputType="textPassword"
+            android:padding="@dimen/_12sdp"
+            android:textColor="@color/taupe_1"
+            android:textColorHint="@color/manatee"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintEnd_toStartOf="@id/guide_line_end"
+            app:layout_constraintStart_toStartOf="@id/guide_line_start"
+            app:layout_constraintTop_toBottomOf="@id/email_edit" />
+
+        <EditText
+            android:id="@+id/re_pass_edit"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@drawable/bac_edit"
+            android:drawableEnd="@drawable/hide_pass"
+            android:gravity="center_vertical"
+            android:hint="@string/confirm_password"
+            android:inputType="textPassword"
+            android:padding="@dimen/_12sdp"
+            android:textColor="@color/davygrey"
+            android:textColorHint="@color/manatee"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintEnd_toStartOf="@id/guide_line_end"
+            app:layout_constraintStart_toStartOf="@id/guide_line_start"
+            app:layout_constraintTop_toBottomOf="@id/pass_edit" />
+
+
+        <Button
+            android:id="@+id/button_signUp"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_marginTop="@dimen/_22sdp"
+            android:background="@drawable/round_button"
+            android:fontFamily="@font/cairo_bold"
+            android:gravity="center"
+            android:text="@string/sign_up"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_14ssp"
+            app:layout_constraintEnd_toStartOf="@id/guide_line_end"
+            app:layout_constraintStart_toStartOf="@id/guide_line_start"
+            app:layout_constraintTop_toBottomOf="@id/re_pass_edit" />
+
+        <TextView
+            android:id="@+id/txt_signUp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:fontFamily="@font/cairo_bold"
+            android:text="@string/sign_up_by"
+            android:textColor="@color/davygrey"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/button_signUp" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_1sdp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_marginEnd="@dimen/_12sdp"
+            android:background="@color/manatee"
+            app:layout_constraintEnd_toStartOf="@id/txt_signUp"
+            app:layout_constraintStart_toEndOf="@id/guide_line_start"
+            app:layout_constraintTop_toTopOf="@id/txt_signUp" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_1sdp"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:background="@color/manatee"
+            app:layout_constraintEnd_toStartOf="@id/guide_line_end"
+            app:layout_constraintStart_toEndOf="@id/txt_signUp"
+            app:layout_constraintTop_toTopOf="@id/txt_signUp" />
+
+        <LinearLayout
+            android:id="@+id/other_login_buttons"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:layout_marginTop="@dimen/_9sdp"
+            android:layout_marginEnd="@dimen/_12sdp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/guide_line_center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_signUp">
+
+            <FrameLayout
+                android:id="@+id/FrameLayout1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/_3sdp"
+                android:layout_weight="1">
+
+                <com.facebook.login.widget.LoginButton
+                    android:id="@+id/login_button_fb"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone" />
+
+                <Button
+                    android:id="@+id/fb"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bac_facebook"
+                    android:drawableStart="@drawable/com_facebook_button_icon"
+                    android:gravity="center"
+                    android:paddingStart="@dimen/_22sdp"
+                    android:paddingEnd="@dimen/_12sdp"
+                    android:text="@string/login_with_facebook"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
+
+            </FrameLayout>
+
+            <Button
+                android:id="@+id/google_sign_in"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/_3sdp"
+                android:layout_marginStart="@dimen/_6sdp"
+                android:layout_weight="1"
+                android:background="@drawable/bac_google"
+                android:drawableStart="@drawable/googleg_standard_color_18"
+                android:gravity="center"
+                android:paddingStart="@dimen/_22sdp"
+                android:paddingEnd="@dimen/_12sdp"
+                android:text="@string/login_with_google"
+                android:textAllCaps="false"
+                android:textColor="@color/davygrey"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
