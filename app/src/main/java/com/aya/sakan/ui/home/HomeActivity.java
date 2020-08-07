@@ -3,12 +3,14 @@ package com.aya.sakan.ui.home;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
 import com.aya.sakan.R;
+import com.aya.sakan.ui.addPost.AddPostActivity;
 import com.aya.sakan.ui.home.classes.AdapterFrag;
 import com.aya.sakan.ui.login.LoginActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -34,6 +36,16 @@ public class HomeActivity extends AppCompatActivity {
         initiViews();
         setUpToolBar();
         setUpTabLayout();
+        setListeners();
+    }
+
+    private void setListeners() {
+        addPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(HomeActivity.this, AddPostActivity.class));
+            }
+        });
     }
 
     private void setUpToolBar() {
