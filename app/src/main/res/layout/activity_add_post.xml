@@ -45,16 +45,19 @@
             android:fontFamily="@font/cairo_bold"
             android:text="@string/add_home_images"
             android:textColor="@color/manatee_dark"
-            android:textSize="@dimen/_14ssp"
+            android:textSize="@dimen/_16ssp"
             app:layout_constraintStart_toStartOf="@id/guide_line_start"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/new_post_image"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_120sdp"
+            android:layout_width="@dimen/_110sdp"
+            android:layout_height="@dimen/_150sdp"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_12sdp"
             android:scaleType="centerCrop"
-            android:src="@drawable/post_placeholder"
+            android:src="@drawable/camera"
             app:layout_constraintEnd_toEndOf="@id/guide_line_end"
             app:layout_constraintStart_toStartOf="@id/guide_line_start"
             app:layout_constraintTop_toBottomOf="@id/add_images" />
@@ -62,11 +65,12 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_images"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_120sdp"
+            android:layout_height="@dimen/_150sdp"
+            android:layout_marginTop="@dimen/_12sdp"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/add_images" />
+            app:layout_constraintTop_toBottomOf="@id/new_post_image" />
 
         <EditText
             android:id="@+id/location_edit"
@@ -86,7 +90,7 @@
             app:layout_constraintEnd_toStartOf="@id/guide_line_end"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@id/guide_line_start"
-            app:layout_constraintTop_toBottomOf="@id/new_post_image" />
+            app:layout_constraintTop_toBottomOf="@id/recycler_images" />
 
         <EditText
             android:id="@+id/title_edit"

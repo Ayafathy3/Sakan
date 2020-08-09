@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="@dimen/_120sdp"
-    android:layout_height="@dimen/_120sdp"
-    android:layout_marginStart="@dimen/_8sdp"
-    android:layout_marginEnd="@dimen/_8sdp"
-    android:background="@color/white">
-
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/view_item"
+    android:layout_width="@dimen/_140sdp"
+    android:layout_height="@dimen/_150sdp"
+    android:background="@drawable/custom_item_layout"
+    android:padding="@dimen/_5sdp">
+    <!--
+    grid items for RecyclerView
+    -->
     <ImageView
-        android:id="@+id/image_item"
+        android:id="@+id/image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:src="@drawable/tenant" />
+        android:src="@drawable/ex" />
 
     <ImageView
         android:id="@+id/image_close"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#d6a6a6"
-        android:src="@drawable/close"
-        app:layout_constraintEnd_toEndOf="@id/image_item"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_alignEnd="@id/image"
+        android:background="@color/white"
+        android:src="@drawable/close" />
+</RelativeLayout>

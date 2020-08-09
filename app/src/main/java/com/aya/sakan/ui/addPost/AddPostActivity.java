@@ -2,6 +2,7 @@ package com.aya.sakan.ui.addPost;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
@@ -16,28 +17,28 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.aya.sakan.R;
+import com.aya.sakan.ui.addPost.postImages.ImageAdapter;
 import com.aya.sakan.ui.home.HomeActivity;
 import com.aya.sakan.util.LoadingDialog;
 
 import java.util.ArrayList;
-import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AddPostActivity extends AppCompatActivity implements IAddPostPresenterContact.View {
     private RecyclerView recyclerViewImages;
     private EditText locationEditText, titleEditText, areaEditText,
             priceEditText, roomsNumEditText, bathroomNumEditText;
-    private ImageView addImages;
+    private CircleImageView addImages;
     private Button uploadPost;
     private int PICK_IMAGE_MULTIPLE = 0;
-    private String imageEncoded;
-    private List<String> imagesEncodedList;
     private static final String TAG = "AddPostActivity";
     private ArrayList<Uri> mArrayUri;
     private AddPostPresenterImp addPostPresenterImp;
+    private ImageAdapter imageAdapter;
 
 
     @Override
@@ -123,7 +124,6 @@ public class AddPostActivity extends AppCompatActivity implements IAddPostPresen
 
         if (requestCode == PICK_IMAGE_MULTIPLE && resultCode == RESULT_OK) {
 
-            //data.getParcelableArrayExtra(name);
             //If Single image selected then it will fetch from Gallery
             if (data.getData() != null) {
                 android.net.Uri mImageUri = data.getData();
@@ -133,13 +133,21 @@ public class AddPostActivity extends AppCompatActivity implements IAddPostPresen
                 if (data.getClipData() != null) {
                     ClipData mClipData = data.getClipData();
                     for (int i = 0; i < mClipData.getItemCount(); i++) {
-
                         Uri uri = mClipData.getItemAt(i).getUri();
                         mArrayUri.add(uri);
                     }
                     Log.i(TAG, "Selected Images" + mArrayUri.size());
                 }
             }
+
+            StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(1, LinearLayoutManager.HORIZONTAL);
+            recyclerViewImages.setLayoutManager(staggeredGridLayoutManager); // set LayoutManager to RecyclerView
+
+            imageAdapter = new ImageAdapter(mArrayUri, AddPostActivity.this, addImages,recyclerViewImages);
+            recyclerViewImages.setAdapter(imageAdapter);
+            recyclerViewImages.setVisibility(View.VISIBLE);
+            addImages.setVisibility(View.GONE);
+
         }
 
         super.onActivityResult(requestCode, resultCode, data);
