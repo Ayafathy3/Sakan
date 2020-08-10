@@ -38,6 +38,14 @@
 
     <string name="facebook_app_id">720037558837958</string>
     <string name="fb_login_protocol_scheme">fb720037558837958</string>
+    <string name="المحافظة">المحافظة</string>
+    <string name="المنطقة">المنطقة</string>
+    <string name="أقل">أقل سعر</string>
+    <string name="أعلى">أعلى سعر</string>
+    <string name="العقار">نوع العقار</string>
+    <string name="التصنيف">التصنيف</string>
+    <string name="الغرف">عدد الغرف</string>
+    <string name="ابحث">ابحث</string>
 
 
 </resources>
