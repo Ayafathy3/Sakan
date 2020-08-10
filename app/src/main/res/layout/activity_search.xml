@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/whitesmoke_1"
+
+    tools:context=".ui.home.search">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tool_bar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/verdigris"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        >
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tool_bar"
+
+        />
+
+
+
+
+       <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+           android:scrollbars="vertical"
+           android:background="@color/whitesmoke_1"
+           android:layout_marginTop="10.00dp"
+           android:layout_marginStart="@dimen/_18sdp"
+           android:layout_marginEnd="@dimen/_18sdp"
+           app:layout_constraintEnd_toEndOf="parent"
+           app:layout_constraintStart_toStartOf="parent"
+           app:layout_constraintTop_toBottomOf="@id/tab_layout"
+           app:layout_constraintBottom_toBottomOf="parent"
+        >
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:layout_editor_absoluteX="61dp"
+            tools:layout_editor_absoluteY="-80dp" />
+
+           <androidx.constraintlayout.widget.Guideline
+               android:id="@+id/guide_line_center"
+               android:layout_width="wrap_content"
+               android:layout_height="match_parent"
+               android:orientation="vertical"
+               app:layout_constraintGuide_percent="0.5" />
+
+        <TextView
+            android:id="@+id/almuhafaza"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:fontFamily="@font/cairo_bold"
+            android:text="@string/المحافظة"
+            android:textColor="@color/davygrey"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+       />
+
+        <com.reginald.editspinner.EditSpinner
+            android:id="@+id/almuhafaza_name_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@drawable/bac_edit"
+            android:drawableStart="@drawable/arrow"
+            android:editable="false"
+            android:fontFamily="@font/cairo_bold"
+            android:gravity="center_vertical|left"
+            android:layoutDirection="rtl"
+            android:padding="@dimen/_12sdp"
+            android:textColor="@color/taupe_1"
+            android:textColorHint="@color/manatee"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="bold"
+            app:dropDownDrawableHeight="@dimen/_6sdp"
+            app:dropDownDrawableSpacing="@dimen/_15sdp"
+            app:dropDownDrawableWidth="@dimen/_10sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/almuhafaza"
+            />
+
+        <TextView
+            android:id="@+id/viinage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:fontFamily="@font/cairo_bold"
+            android:text="@string/المنطقة"
+            android:textColor="@color/davygrey"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/almuhafaza_name_spinner"
+            />
+
+        <com.reginald.editspinner.EditSpinner
+            android:id="@+id/viinage_name_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@drawable/bac_edit"
+            android:drawableStart="@drawable/arrow"
+            android:editable="false"
+            android:fontFamily="@font/cairo_bold"
+            android:gravity="center_vertical|left"
+            android:layoutDirection="rtl"
+            android:padding="@dimen/_12sdp"
+            android:textColor="@color/taupe_1"
+            android:textColorHint="@color/manatee"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="bold"
+            app:dropDownDrawableHeight="@dimen/_6sdp"
+            app:dropDownDrawableSpacing="@dimen/_15sdp"
+            app:dropDownDrawableWidth="@dimen/_10sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/viinage"
+            />
+
+        <TextView
+            android:id="@+id/estate_type"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:fontFamily="@font/cairo_bold"
+            android:text="@string/العقار"
+            android:textColor="@color/davygrey"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/guide_line_center"
+            app:layout_constraintTop_toBottomOf="@id/viinage_name_spinner"
+            android:layout_marginStart="@dimen/_8sdp"
+            />
+
+           <TextView
+               android:id="@+id/categorization"
+               android:layout_width="0dp"
+               android:layout_height="wrap_content"
+               android:layout_marginTop="@dimen/_10sdp"
+               android:fontFamily="@font/cairo_bold"
+               android:text="@string/التصنيف"
+               android:textColor="@color/davygrey"
+               android:textSize="@dimen/_12ssp"
+               app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintEnd_toEndOf="@id/guide_line_center"
+               app:layout_constraintTop_toBottomOf="@id/viinage_name_spinner"
+               android:layout_marginEnd="@dimen/_8sdp"
+               />
+
+
+
+           <com.reginald.editspinner.EditSpinner
+               android:id="@+id/estate_type_spinner"
+               android:layout_width="0dp"
+               android:layout_height="@dimen/_40sdp"
+               android:layout_marginTop="@dimen/_10sdp"
+               android:background="@drawable/bac_edit"
+               android:drawableStart="@drawable/arrow"
+               android:editable="false"
+               android:fontFamily="@font/cairo_bold"
+               android:gravity="center_vertical|left"
+               android:layoutDirection="rtl"
+               android:padding="@dimen/_12sdp"
+               android:textColor="@color/taupe_1"
+               android:textColorHint="@color/manatee"
+               android:textSize="@dimen/_12ssp"
+               android:textStyle="bold"
+               app:dropDownDrawableHeight="@dimen/_6sdp"
+               app:dropDownDrawableSpacing="@dimen/_15sdp"
+               app:dropDownDrawableWidth="@dimen/_10sdp"
+               app:layout_constraintStart_toStartOf="@id/guide_line_center"
+               app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintTop_toBottomOf="@id/estate_type"
+               android:layout_marginStart="@dimen/_8sdp"/>
+
+
+
+           <com.reginald.editspinner.EditSpinner
+               android:id="@+id/categorization_spinner"
+               android:layout_width="0dp"
+               android:layout_height="@dimen/_40sdp"
+               android:layout_marginTop="@dimen/_10sdp"
+               android:background="@drawable/bac_edit"
+               android:drawableStart="@drawable/arrow"
+               android:editable="false"
+               android:fontFamily="@font/cairo_bold"
+               android:gravity="center_vertical|left"
+               android:layoutDirection="rtl"
+               android:padding="@dimen/_12sdp"
+               android:textColor="@color/taupe_1"
+               android:textColorHint="@color/manatee"
+               android:textSize="@dimen/_12ssp"
+               android:textStyle="bold"
+               app:dropDownDrawableHeight="@dimen/_6sdp"
+               app:dropDownDrawableSpacing="@dimen/_15sdp"
+               app:dropDownDrawableWidth="@dimen/_10sdp"
+               app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintEnd_toEndOf="@id/guide_line_center"
+               app:layout_constraintTop_toBottomOf="@id/categorization"
+               android:layout_marginEnd="@dimen/_8sdp"
+               />
+
+           <TextView
+            android:id="@+id/less_price"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:fontFamily="@font/cairo_bold"
+            android:text="@string/أقل"
+            android:textColor="@color/davygrey"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="@id/guide_line_center"
+            app:layout_constraintTop_toBottomOf="@id/estate_type_spinner"
+          android:layout_marginStart="@dimen/_8sdp"
+            />
+
+           <TextView
+               android:id="@+id/most_price"
+               android:layout_width="0dp"
+               android:layout_height="wrap_content"
+               android:layout_marginTop="@dimen/_10sdp"
+               android:fontFamily="@font/cairo_bold"
+               android:text="@string/أعلى"
+               android:textColor="@color/davygrey"
+               android:textSize="@dimen/_12ssp"
+               app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintEnd_toEndOf="@id/guide_line_center"
+               app:layout_constraintTop_toBottomOf="@id/categorization_spinner"
+               android:layout_marginEnd="@dimen/_8sdp"
+               />
+
+           <com.reginald.editspinner.EditSpinner
+               android:id="@+id/less_price_spinner"
+               android:layout_width="0dp"
+               android:layout_height="@dimen/_40sdp"
+               android:layout_marginTop="@dimen/_10sdp"
+               android:background="@drawable/bac_edit"
+               android:drawableStart="@drawable/arrow"
+               android:editable="false"
+               android:fontFamily="@font/cairo_bold"
+               android:gravity="center_vertical|left"
+               android:layoutDirection="rtl"
+               android:padding="@dimen/_12sdp"
+               android:textColor="@color/taupe_1"
+               android:textColorHint="@color/manatee"
+               android:textSize="@dimen/_12ssp"
+               android:textStyle="bold"
+               app:dropDownDrawableHeight="@dimen/_6sdp"
+               app:dropDownDrawableSpacing="@dimen/_15sdp"
+               app:dropDownDrawableWidth="@dimen/_10sdp"
+               app:layout_constraintStart_toStartOf="@id/guide_line_center"
+               app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintTop_toBottomOf="@id/less_price"
+               android:layout_marginStart="@dimen/_8sdp"
+               />
+
+
+
+
+
+        <com.reginald.editspinner.EditSpinner
+            android:id="@+id/most_price_spinner"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@drawable/bac_edit"
+            android:drawableStart="@drawable/arrow"
+            android:editable="false"
+            android:fontFamily="@font/cairo_bold"
+            android:gravity="center_vertical|left"
+            android:layoutDirection="rtl"
+            android:padding="@dimen/_12sdp"
+            android:textColor="@color/taupe_1"
+            android:textColorHint="@color/manatee"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="bold"
+            app:dropDownDrawableHeight="@dimen/_6sdp"
+            app:dropDownDrawableSpacing="@dimen/_15sdp"
+            app:dropDownDrawableWidth="@dimen/_10sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/guide_line_center"
+            app:layout_constraintTop_toBottomOf="@id/most_price"
+            android:layout_marginEnd="@dimen/_8sdp"
+            />
+
+
+        <TextView
+            android:id="@+id/rooms_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:fontFamily="@font/cairo_bold"
+            android:text="@string/الغرف"
+            android:textColor="@color/davygrey"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/less_price_spinner"
+            />
+
+        <com.reginald.editspinner.EditSpinner
+            android:id="@+id/rooms_number_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@drawable/bac_edit"
+            android:drawableStart="@drawable/arrow"
+            android:editable="false"
+            android:fontFamily="@font/cairo_bold"
+            android:gravity="center_vertical|left"
+            android:layoutDirection="rtl"
+            android:padding="@dimen/_12sdp"
+            android:textColor="@color/taupe_1"
+            android:textColorHint="@color/manatee"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="bold"
+            app:dropDownDrawableHeight="@dimen/_6sdp"
+            app:dropDownDrawableSpacing="@dimen/_15sdp"
+            app:dropDownDrawableWidth="@dimen/_10sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rooms_number"
+            />
+
+           <Button
+               android:id="@+id/button_search"
+               android:layout_width="match_parent"
+               android:layout_height="@dimen/_35sdp"
+               android:layout_marginTop="10.00dp"
+               android:layout_marginBottom="10.00dp"
+               android:background="@drawable/round_button"
+               android:fontFamily="@font/cairo_bold"
+               android:gravity="center"
+               android:text="@string/ابحث"
+               android:textAllCaps="false"
+               android:textColor="@color/white"
+               android:textSize="@dimen/_14ssp"
+               app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintBottom_toBottomOf="parent"
+               app:layout_constraintTop_toBottomOf="@id/rooms_number_spinner"
+               />
+
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
