@@ -20,6 +20,8 @@
     <string name="rented">Rented</string>
     <string name="login_text">Login</string>
     <string name="sign_up_2">تسجيل دخول</string>
+    <string name="add_home_images">Add Home Images</string>
+    <string name="location">Location</string>
     <!--<string name="account_type">نوع الحساب</string>-->
     <string name="account_type">Account type</string>
     <!-- <string name="rented_name">اسم المعلن/الشركة</string>-->
@@ -38,6 +40,7 @@
 
     <string name="facebook_app_id">720037558837958</string>
     <string name="fb_login_protocol_scheme">fb720037558837958</string>
+
     <string name="المحافظة">المحافظة</string>
     <string name="المنطقة">المنطقة</string>
     <string name="أقل">أقل سعر</string>
@@ -47,5 +50,12 @@
     <string name="الغرف">عدد الغرف</string>
     <string name="ابحث">ابحث</string>
 
-
+    <string name="title">Title</string>
+    <string name="area">Area</string>
+    <string name="price">Price</string>
+    <string name="rooms_num">Rooms Num</string>
+    <string name="bathroom_num">Bathroom Num</string>
+    <string name="upload">Upload Post</string>
+    <string name="desc">Description</string>
+    <string name="home_type">Home Type</string>
 </resources>

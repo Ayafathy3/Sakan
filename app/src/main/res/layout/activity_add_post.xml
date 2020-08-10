@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FAFAFA"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/_10sdp"
+        android:scrollbars="vertical">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guide_line_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.96" />
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guide_line_center"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guide_line_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.04" />
+
+        <TextView
+            android:id="@+id/add_images"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:fontFamily="@font/cairo_bold"
+            android:text="@string/add_home_images"
+            android:textColor="@color/manatee_dark"
+            android:textSize="@dimen/_16ssp"
+            app:layout_constraintStart_toStartOf="@id/guide_line_start"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/new_post_image"
+            android:layout_width="@dimen/_110sdp"
+            android:layout_height="@dimen/_150sdp"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_12sdp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/camera"
+            app:layout_constraintEnd_toEndOf="@id/guide_line_end"
+            app:layout_constraintStart_toStartOf="@id/guide_line_start"
+            app:layout_constraintTop_toBottomOf="@id/add_images" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_images"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_150sdp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/new_post_image" />
+
+
+        <com.reginald.editspinner.EditSpinner
+            android:id="@+id/home_type_edit"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_marginEnd="@dimen/_12sdp"
+            android:background="@drawable/bac_edit"
+            android:drawableStart="@drawable/arrow"
+            android:editable="false"
+            android:fontFamily="@font/cairo_bold"
+            android:gravity="center_vertical|left"
+            android:hint="@string/home_type"
+            android:layoutDirection="rtl"
+            android:padding="@dimen/_12sdp"
+            android:paddingStart="@dimen/_6sdp"
+            android:paddingEnd="@dimen/_6sdp"
+            android:textColor="@color/taupe_1"
+            android:textColorHint="@color/manatee"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="bold"
+            app:dropDownDrawableHeight="@dimen/_6sdp"
+            app:dropDownDrawableSpacing="@dimen/_15sdp"
+            app:dropDownDrawableWidth="@dimen/_10sdp"
+            app:layout_constraintEnd_toStartOf="@id/guide_line_end"
+            app:layout_constraintStart_toStartOf="@id/guide_line_start"
+            app:layout_constraintTop_toBottomOf="@id/recycler_images" />
+
+        <EditText
+            android:id="@+id/location_edit"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:background="@drawable/bac_edit"
+            android:gravity="center_vertical"
+            android:hint="@string/location"
+            android:inputType="text"
+            android:padding="@dimen/_12sdp"
+            android:paddingStart="@dimen/_6sdp"
+            android:paddingEnd="@dimen/_6sdp"
+            android:textColor="@color/davygrey"
+            android:textColorHint="@color/manatee_1"
+            android:textSize="@dimen/_14ssp"
+            app:layout_constraintEnd_toStartOf="@id/guide_line_end"
+            app:layout_constraintStart_toStartOf="@id/guide_line_start"
+            app:layout_constraintTop_toBottomOf="@id/home_type_edit" />
+
+        <EditText
+            android:id="@+id/title_edit"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:background="@drawable/bac_edit"
+            android:gravity="center_vertical"
+            android:hint="@string/desc"
+            android:inputType="text"
+            android:paddingStart="@dimen/_6sdp"
+            android:paddingEnd="@dimen/_6sdp"
+            android:textColor="@color/davygrey"
+            android:textColorHint="@color/manatee"
+            android:textSize="@dimen/_14ssp"
+            app:layout_constraintEnd_toStartOf="@id/guide_line_end"
+            app:layout_constraintStart_toStartOf="@id/guide_line_start"
+            app:layout_constraintTop_toBottomOf="@id/location_edit" />
+
+        <EditText
+            android:id="@+id/area_edit"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:background="@drawable/bac_edit"
+            android:gravity="center_vertical"
+            android:hint="@string/area"
+            android:inputType="numberSigned"
+            android:paddingStart="@dimen/_6sdp"
+            android:paddingEnd="@dimen/_6sdp"
+            android:textColor="@color/davygrey"
+            android:textColorHint="@color/manatee"
+            android:textSize="@dimen/_14ssp"
+            app:layout_constraintEnd_toEndOf="@id/guide_line_center"
+            app:layout_constraintStart_toStartOf="@id/guide_line_start"
+            app:layout_constraintTop_toBottomOf="@id/title_edit" />
+
+        <EditText
+            android:id="@+id/price_edit"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:background="@drawable/bac_edit"
+            android:gravity="center_vertical"
+            android:hint="@string/price"
+            android:inputType="numberSigned"
+            android:paddingStart="@dimen/_6sdp"
+            android:paddingEnd="@dimen/_6sdp"
+            android:textColor="@color/davygrey"
+            android:textColorHint="@color/manatee"
+            android:textSize="@dimen/_14ssp"
+            app:layout_constraintEnd_toEndOf="@id/guide_line_end"
+            app:layout_constraintStart_toEndOf="@id/area_edit"
+            app:layout_constraintTop_toBottomOf="@id/title_edit" />
+
+
+        <EditText
+            android:id="@+id/rooms_num_edit"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:background="@drawable/bac_edit"
+            android:gravity="center_vertical"
+            android:hint="@string/rooms_num"
+            android:inputType="numberSigned"
+            android:paddingStart="@dimen/_6sdp"
+            android:paddingEnd="@dimen/_6sdp"
+            android:textColor="@color/davygrey"
+            android:textColorHint="@color/manatee"
+            android:textSize="@dimen/_14ssp"
+            app:layout_constraintEnd_toEndOf="@id/guide_line_center"
+            app:layout_constraintStart_toStartOf="@id/guide_line_start"
+            app:layout_constraintTop_toBottomOf="@id/area_edit" />
+
+        <EditText
+            android:id="@+id/bathroom_num_edit"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:background="@drawable/bac_edit"
+            android:gravity="center_vertical"
+            android:hint="@string/bathroom_num"
+            android:inputType="numberSigned"
+            android:paddingStart="@dimen/_6sdp"
+            android:paddingEnd="@dimen/_6sdp"
+            android:textColor="@color/davygrey"
+            android:textColorHint="@color/manatee"
+            android:textSize="@dimen/_14ssp"
+            app:layout_constraintEnd_toEndOf="@id/guide_line_end"
+            app:layout_constraintStart_toEndOf="@id/area_edit"
+            app:layout_constraintTop_toBottomOf="@id/area_edit" />
+
+        <Button
+            android:id="@+id/upload_button"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:background="@drawable/round_button"
+            android:fontFamily="@font/cairo_bold"
+            android:gravity="center"
+            android:text="@string/upload"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_14ssp"
+            app:layout_constraintEnd_toStartOf="@id/guide_line_end"
+            app:layout_constraintStart_toStartOf="@id/guide_line_start"
+            app:layout_constraintTop_toBottomOf="@id/rooms_num_edit" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

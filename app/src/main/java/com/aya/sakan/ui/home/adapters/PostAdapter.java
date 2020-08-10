@@ -1,4 +1,4 @@
-package com.aya.sakan.ui.home.classes;
+package com.aya.sakan.ui.home.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,36 +21,21 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
-    ArrayList<Post> arrayList;
-    public Context context;
-    private Post post;
-    private FirebaseFirestore firebaseFirestore;
-    private FirebaseAuth firebaseAuth;
-    private PopupWindow popWindow;
+    private List<Post> arrayList;
+    private Context context;
 
-    public static final String TAG = "PostAdapter";
 
-    public PostAdapter() {
-    }
-
-    public PostAdapter(ArrayList<Post> arrayList) {
-
+    public PostAdapter(List<Post> arrayList) {
         this.arrayList = arrayList;
-
     }
 
     @Override
@@ -59,8 +43,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.home_item, parent, false);
         context = parent.getContext();
-        firebaseFirestore = FirebaseFirestore.getInstance();
-        firebaseAuth = FirebaseAuth.getInstance();
         return new ViewHolder(view);
     }
 
@@ -68,10 +50,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.setIsRecyclable(false);
 
-        Post post = arrayList.get(position);
-
-        final String currentUserId = firebaseAuth.getCurrentUser().getUid();
-        post.setUserId(currentUserId);
+        final Post post = arrayList.get(position);
 
         holder.title.setText(post.getTitle());
         holder.bathroomNum.setText(post.getBathroomsNum());
@@ -85,28 +64,17 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         holder.date.setText(dateString);
 
         //post image
-        holder.setHomeImage(post.getImagesURL().get(0));
+        if (post.getImagesURL() != null)
+            holder.setHomeImage(post.getImagesURL().get(0));
 
 
         //User Data will be retrieved here...
-        firebaseFirestore.collection("Users").document(currentUserId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(Task<DocumentSnapshot> task) {
+        if (post.getUserName() != null)
+            holder.userName.setText(post.getUserName());
 
-                if (task.isSuccessful()) {
-
-                    String userName = task.getResult().getString("name");
-                    String userImage = task.getResult().getString("image");
-
-                    // user image and name
-                    holder.setUserData(userName, userImage);
-
-                } else {
-                    //Firebase Exception
-                    Log.i(TAG, "get user data failed");
-                }
-            }
-        });
+        RequestOptions placeholderOption = new RequestOptions();
+        placeholderOption.placeholder(R.drawable.profile_placeholder);
+        Glide.with(context).applyDefaultRequestOptions(placeholderOption).load(post.getUerImg()).into(holder.userImage);
 
         // open user profile
         holder.userImage.setOnClickListener(new View.OnClickListener() {
@@ -116,7 +84,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
                 SharedPreferences shared = context.getSharedPreferences("ID", context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = shared.edit();
-                editor.putString("USER_ID", currentUserId);
+                editor.putString("USER_ID", post.getUserId());
                 editor.apply();
                 context.startActivity(userInformation);
             }
@@ -131,14 +99,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private View mView;
         private ImageView homeImage;
         private TextView userName, date, price, title, roomsNum, bathroomNum, area;
         private CircleImageView userImage;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            mView = itemView;
             intiViews(itemView);
         }
 
@@ -158,13 +124,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             RequestOptions requestOptions = new RequestOptions();
             requestOptions.placeholder(R.drawable.image_placeholder);
             Glide.with(context).applyDefaultRequestOptions(requestOptions).load(downloadUri).into(homeImage);
-        }
-
-        public void setUserData(String name, String imageURL) {
-            userName.setText(name);
-            RequestOptions placeholderOption = new RequestOptions();
-            placeholderOption.placeholder(R.drawable.profile_placeholder);
-            Glide.with(context).applyDefaultRequestOptions(placeholderOption).load(imageURL).into(userImage);
         }
     }
 }
