@@ -47,4 +47,5 @@
     <string name="bathroom_num">Bathroom Num</string>
     <string name="upload">Upload Post</string>
     <string name="desc">Description</string>
+    <string name="home_type">Home Type</string>
 </resources>

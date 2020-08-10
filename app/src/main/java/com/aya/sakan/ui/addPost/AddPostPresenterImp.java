@@ -45,7 +45,7 @@ public class AddPostPresenterImp implements IAddPostPresenterContact.Presenter {
 
     @Override
     public void uploadPostAndImages(final List<Uri> imageList, final String desc, final String location,
-                                    final String area, final String price, final String roomsNum, final String bathroomNum) {
+                                    final String area, final String price, final String roomsNum, final String bathroomNum, final String homeType) {
 
         // upload images
 
@@ -71,7 +71,7 @@ public class AddPostPresenterImp implements IAddPostPresenterContact.Presenter {
                             finalUploads++;
 
                             if (finalUploads == imageList.size()) {
-                                uploadPost(imagesURL, desc, location, area, price, roomsNum, bathroomNum);
+                                uploadPost(imagesURL, desc, location, area, price, roomsNum, bathroomNum, homeType);
                             }
                         }
                     });
@@ -82,8 +82,12 @@ public class AddPostPresenterImp implements IAddPostPresenterContact.Presenter {
     }
 
 
-    private void uploadPost(List<String> imageList, String desc, String location, String area, String price, String roomsNum, String bathroomNum) {
+    private void uploadPost(List<String> imageList, String desc, String location, String area, String price, String roomsNum, String bathroomNum, String homeType) {
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
         Map<String, Object> postMap = new HashMap<>();
+        postMap.put("userId", userId);
+        postMap.put("home_type", homeType);
         postMap.put("images_url", imageList);
         postMap.put("desc", desc);
         postMap.put("location", location);

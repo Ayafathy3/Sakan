@@ -9,22 +9,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
+import com.aya.sakan.Prefs.PreferencesHelperImp;
 import com.aya.sakan.R;
 import com.aya.sakan.ui.addPost.AddPostActivity;
-import com.aya.sakan.ui.home.classes.AdapterFrag;
+import com.aya.sakan.ui.home.adapters.AdapterFrag;
 import com.aya.sakan.ui.login.LoginActivity;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 
 public class HomeActivity extends AppCompatActivity {
     private FloatingActionButton addPost;
-    private FirebaseFirestore firebaseFirestore;
     private ViewPager viewPager;
     private TabLayout tabLayout;
 
@@ -63,6 +58,14 @@ public class HomeActivity extends AppCompatActivity {
         tabLayout = findViewById(R.id.tab_layout);
         viewPager = findViewById(R.id.view_pager);
 
+        String accountType = PreferencesHelperImp.getInstance().getAccountType();
+        if (accountType != null) {
+            if (accountType.equals("tenant")) {
+                addPost.setVisibility(View.GONE);
+            } else if (accountType.equals("rented")) {
+                addPost.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     private void setUpTabLayout() {
@@ -90,8 +93,4 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    private void openLoginActivity() {
-        startActivity(new Intent(HomeActivity.this, LoginActivity.class));
-        finish();
-    }
 }

@@ -163,9 +163,7 @@
                 app:dropDownDrawableSpacing="@dimen/_15sdp"
                 app:dropDownDrawableWidth="@dimen/_10sdp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-
-                />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
                 android:id="@+id/rented_name_edit"
@@ -183,7 +181,6 @@
 
             <EditText
                 android:id="@+id/phone_edit"
-                android:maxLength="11"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_40sdp"
                 android:layout_marginTop="@dimen/_10sdp"
@@ -191,6 +188,7 @@
                 android:gravity="center_vertical"
                 android:hint="@string/phone_number"
                 android:inputType="phone"
+                android:maxLength="11"
                 android:padding="@dimen/_12sdp"
                 android:textColor="@color/davygrey"
                 android:textColorHint="@color/manatee"

@@ -15,6 +15,8 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -23,6 +25,7 @@ import com.aya.sakan.R;
 import com.aya.sakan.ui.addPost.postImages.ImageAdapter;
 import com.aya.sakan.ui.home.HomeActivity;
 import com.aya.sakan.util.LoadingDialog;
+import com.reginald.editspinner.EditSpinner;
 
 import java.util.ArrayList;
 
@@ -39,7 +42,9 @@ public class AddPostActivity extends AppCompatActivity implements IAddPostPresen
     private ArrayList<Uri> mArrayUri;
     private AddPostPresenterImp addPostPresenterImp;
     private ImageAdapter imageAdapter;
-
+    private EditSpinner homeTypeEditSpinner;
+    private ArrayList<String> homeTypeList;
+    private String homeType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,10 +52,18 @@ public class AddPostActivity extends AppCompatActivity implements IAddPostPresen
         setContentView(R.layout.activity_add_post);
 
         intiViews();
+        setUpSpinner();
         createInstance();
         setListeners();
     }
 
+    private void setUpSpinner() {
+        homeTypeList = new ArrayList<>();
+        homeTypeList.add("Sale");
+        homeTypeList.add("Rent");
+        ArrayAdapter<String> accountTypeAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, homeTypeList);
+        homeTypeEditSpinner.setAdapter(accountTypeAdapter);
+    }
     private void createInstance() {
         mArrayUri = new ArrayList<>();
     }
@@ -68,6 +81,14 @@ public class AddPostActivity extends AppCompatActivity implements IAddPostPresen
             @Override
             public void onClick(View view) {
                 uploadPostAction();
+            }
+        });
+
+        homeTypeEditSpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                homeType = homeTypeList.get(i).toString();
+                Log.i("homeType", homeType);
             }
         });
     }
@@ -88,7 +109,7 @@ public class AddPostActivity extends AppCompatActivity implements IAddPostPresen
         } else {
             LoadingDialog.showProgress(this);
             addPostPresenterImp = new AddPostPresenterImp(this, AddPostActivity.this);
-            addPostPresenterImp.uploadPostAndImages(mArrayUri, desc, location, area, price, roomsNum + " غرف ", bathroomNum + " حمام ");
+            addPostPresenterImp.uploadPostAndImages(mArrayUri, desc, location, area, price, roomsNum + " غرف ", bathroomNum + " حمام ", homeType);
         }
     }
 
@@ -117,6 +138,7 @@ public class AddPostActivity extends AppCompatActivity implements IAddPostPresen
         bathroomNumEditText = findViewById(R.id.bathroom_num_edit);
         addImages = findViewById(R.id.new_post_image);
         uploadPost = findViewById(R.id.upload_button);
+        homeTypeEditSpinner = findViewById(R.id.home_type_edit);
     }
 
     @Override
@@ -143,7 +165,7 @@ public class AddPostActivity extends AppCompatActivity implements IAddPostPresen
             StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(1, LinearLayoutManager.HORIZONTAL);
             recyclerViewImages.setLayoutManager(staggeredGridLayoutManager); // set LayoutManager to RecyclerView
 
-            imageAdapter = new ImageAdapter(mArrayUri, AddPostActivity.this, addImages,recyclerViewImages);
+            imageAdapter = new ImageAdapter(mArrayUri, AddPostActivity.this, addImages, recyclerViewImages);
             recyclerViewImages.setAdapter(imageAdapter);
             recyclerViewImages.setVisibility(View.VISIBLE);
             addImages.setVisibility(View.GONE);

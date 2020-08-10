@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.aya.sakan.Prefs.PreferencesHelperImp;
 import com.aya.sakan.util.LoadingDialog;
 import com.facebook.AccessToken;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -94,6 +95,9 @@ public class SignUpPresenterImp implements ISignUpPresenterContract.Presenter {
         LoadingDialog.showProgress(context);
 
         if (rentedName == null && phone == null && accountType == null) {
+            // tenant
+            PreferencesHelperImp.getInstance().setAccountType("tenant");
+
             mAuth.createUserWithEmailAndPassword(mail, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
@@ -110,6 +114,9 @@ public class SignUpPresenterImp implements ISignUpPresenterContract.Presenter {
                 }
             });
         } else {
+            // rented(home)
+            PreferencesHelperImp.getInstance().setAccountType("rented");
+
             mAuth.createUserWithEmailAndPassword(mail, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
@@ -161,4 +168,6 @@ public class SignUpPresenterImp implements ISignUpPresenterContract.Presenter {
             }
         });
     }
+
+
 }

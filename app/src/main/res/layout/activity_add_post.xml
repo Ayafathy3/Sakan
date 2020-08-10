@@ -72,11 +72,40 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/new_post_image" />
 
+
+        <com.reginald.editspinner.EditSpinner
+            android:id="@+id/home_type_edit"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_marginEnd="@dimen/_12sdp"
+            android:background="@drawable/bac_edit"
+            android:drawableStart="@drawable/arrow"
+            android:editable="false"
+            android:fontFamily="@font/cairo_bold"
+            android:gravity="center_vertical|left"
+            android:hint="@string/home_type"
+            android:layoutDirection="rtl"
+            android:padding="@dimen/_12sdp"
+            android:paddingStart="@dimen/_6sdp"
+            android:paddingEnd="@dimen/_6sdp"
+            android:textColor="@color/taupe_1"
+            android:textColorHint="@color/manatee"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="bold"
+            app:dropDownDrawableHeight="@dimen/_6sdp"
+            app:dropDownDrawableSpacing="@dimen/_15sdp"
+            app:dropDownDrawableWidth="@dimen/_10sdp"
+            app:layout_constraintEnd_toStartOf="@id/guide_line_end"
+            app:layout_constraintStart_toStartOf="@id/guide_line_start"
+            app:layout_constraintTop_toBottomOf="@id/recycler_images" />
+
         <EditText
             android:id="@+id/location_edit"
             android:layout_width="0dp"
             android:layout_height="@dimen/_40sdp"
-            android:layout_marginTop="28dp"
+            android:layout_marginTop="@dimen/_12sdp"
             android:background="@drawable/bac_edit"
             android:gravity="center_vertical"
             android:hint="@string/location"
@@ -88,9 +117,8 @@
             android:textColorHint="@color/manatee_1"
             android:textSize="@dimen/_14ssp"
             app:layout_constraintEnd_toStartOf="@id/guide_line_end"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@id/guide_line_start"
-            app:layout_constraintTop_toBottomOf="@id/recycler_images" />
+            app:layout_constraintTop_toBottomOf="@id/home_type_edit" />
 
         <EditText
             android:id="@+id/title_edit"
