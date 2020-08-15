@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -14,7 +15,7 @@ import com.aya.sakan.Prefs.PreferencesHelperImp;
 import com.aya.sakan.R;
 import com.aya.sakan.ui.addPost.AddPostActivity;
 import com.aya.sakan.ui.home.adapters.AdapterFrag;
-import com.aya.sakan.ui.login.LoginActivity;
+import com.aya.sakan.ui.search.SearchActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
@@ -23,15 +24,16 @@ public class HomeActivity extends AppCompatActivity {
     private FloatingActionButton addPost;
     private ViewPager viewPager;
     private TabLayout tabLayout;
+    private Toolbar toolbar;
+    private ImageButton profile, search, logout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-
         initiViews();
-        setUpToolBar();
+
         setUpTabLayout();
         setListeners();
     }
@@ -43,29 +45,24 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(new Intent(HomeActivity.this, AddPostActivity.class));
             }
         });
+
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(HomeActivity.this, SearchActivity.class));
+            }
+        });
     }
 
-    private void setUpToolBar() {
-        //this is the code of Tool_bar
-        Toolbar toolbar = findViewById(R.id.tool_bar);
-        toolbar.setTitle("Home");
-        toolbar.setTitleTextColor(Color.WHITE);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu,menu);
-
-        return super.onCreateOptionsMenu(menu);
-    }
 
     private void initiViews() {
+        toolbar = findViewById(R.id.tool_bar);
         addPost = findViewById(R.id.add_post_btn);
         tabLayout = findViewById(R.id.tab_layout);
         viewPager = findViewById(R.id.view_pager);
+        profile = findViewById(R.id.profile);
+        search = findViewById(R.id.search);
+        logout = findViewById(R.id.logout);
 
         String accountType = PreferencesHelperImp.getInstance().getAccountType();
         if (accountType != null) {

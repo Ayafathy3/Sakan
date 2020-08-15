@@ -45,7 +45,8 @@ public class AddPostPresenterImp implements IAddPostPresenterContact.Presenter {
 
     @Override
     public void uploadPostAndImages(final List<Uri> imageList, final String desc, final String location,
-                                    final String area, final String price, final String roomsNum, final String bathroomNum, final String homeType) {
+                                    final String area, final String price, final String roomsNum, final String bathroomNum, final String homeType,
+                                    final String contractType, final String town, final String city) {
 
         // upload images
 
@@ -57,7 +58,6 @@ public class AddPostPresenterImp implements IAddPostPresenterContact.Presenter {
 
             Uri Image = imageList.get(uploads);
             final StorageReference imageName = ImageFolder.child("image/" + Image.getLastPathSegment());
-
 
             imageName.putFile(imageList.get(uploads)).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
@@ -71,7 +71,8 @@ public class AddPostPresenterImp implements IAddPostPresenterContact.Presenter {
                             finalUploads++;
 
                             if (finalUploads == imageList.size()) {
-                                uploadPost(imagesURL, desc, location, area, price, roomsNum, bathroomNum, homeType);
+                                uploadPost(imagesURL, desc, location, area, price, roomsNum, bathroomNum, homeType, contractType,
+                                        town, city);
                             }
                         }
                     });
@@ -82,7 +83,9 @@ public class AddPostPresenterImp implements IAddPostPresenterContact.Presenter {
     }
 
 
-    private void uploadPost(List<String> imageList, String desc, String location, String area, String price, String roomsNum, String bathroomNum, String homeType) {
+    private void uploadPost(List<String> imageList, String desc, String location, String area, String price,
+                            String roomsNum, String bathroomNum, String homeType,
+                            String contractType, String town, String city) {
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         Map<String, Object> postMap = new HashMap<>();
@@ -95,6 +98,9 @@ public class AddPostPresenterImp implements IAddPostPresenterContact.Presenter {
         postMap.put("price", price);
         postMap.put("roomsNum", roomsNum);
         postMap.put("bathroomNum", bathroomNum);
+        postMap.put("town", town);
+        postMap.put("contractType", contractType);
+        postMap.put("city", city);
         postMap.put("timestamp", FieldValue.serverTimestamp());
 
         firebaseFirestore = FirebaseFirestore.getInstance();

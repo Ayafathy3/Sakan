@@ -21,7 +21,7 @@
     <string name="login_text">Login</string>
     <string name="sign_up_2">تسجيل دخول</string>
     <string name="add_home_images">Add Home Images</string>
-    <string name="location">Location</string>
+    <string name="location">Detailed address</string>
     <!--<string name="account_type">نوع الحساب</string>-->
     <string name="account_type">Account type</string>
     <!-- <string name="rented_name">اسم المعلن/الشركة</string>-->
@@ -46,7 +46,8 @@
     <string name="أقل">أقل سعر</string>
     <string name="أعلى">أعلى سعر</string>
     <string name="العقار">نوع العقار</string>
-    <string name="التصنيف">التصنيف</string>
+    <string name="contract_type_ar">نوع العقد</string>
+    <string name="contract_type">Contract Type</string>
     <string name="الغرف">عدد الغرف</string>
     <string name="ابحث">ابحث</string>
 

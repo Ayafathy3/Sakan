@@ -24,17 +24,21 @@ import android.widget.Toast;
 import com.aya.sakan.R;
 import com.aya.sakan.ui.addPost.postImages.ImageAdapter;
 import com.aya.sakan.ui.home.HomeActivity;
+import com.aya.sakan.ui.search.SearchActivity;
+import com.aya.sakan.ui.search.Town;
+import com.aya.sakan.util.Data;
 import com.aya.sakan.util.LoadingDialog;
 import com.reginald.editspinner.EditSpinner;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AddPostActivity extends AppCompatActivity implements IAddPostPresenterContact.View {
     private RecyclerView recyclerViewImages;
     private EditText locationEditText, titleEditText, areaEditText,
-            priceEditText, roomsNumEditText, bathroomNumEditText;
+            priceEditText;
     private CircleImageView addImages;
     private Button uploadPost;
     private int PICK_IMAGE_MULTIPLE = 0;
@@ -42,9 +46,14 @@ public class AddPostActivity extends AppCompatActivity implements IAddPostPresen
     private ArrayList<Uri> mArrayUri;
     private AddPostPresenterImp addPostPresenterImp;
     private ImageAdapter imageAdapter;
-    private EditSpinner homeTypeEditSpinner;
-    private ArrayList<String> homeTypeList;
-    private String homeType;
+
+    private int townId;
+    private EditSpinner townEditSpinner, cityEditSpinner, homeTypeEditSpinner,
+            contractTypeEditSpinner, roomsNumEditSpinner, bathroomNumEditSpinner;
+
+    private ArrayList<String> roomsNumList, bathroomNumList;
+    private String townString, cityString, homeTypeString,
+            contractTypeString, roomsNumString, bathroomNumString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,18 +61,43 @@ public class AddPostActivity extends AppCompatActivity implements IAddPostPresen
         setContentView(R.layout.activity_add_post);
 
         intiViews();
-        setUpSpinner();
+        setUpSpinners();
         createInstance();
         setListeners();
     }
 
-    private void setUpSpinner() {
-        homeTypeList = new ArrayList<>();
-        homeTypeList.add("Sale");
-        homeTypeList.add("Rent");
-        ArrayAdapter<String> accountTypeAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, homeTypeList);
-        homeTypeEditSpinner.setAdapter(accountTypeAdapter);
+    private void setUpSpinners() {
+        //town
+        List<String> townList = new ArrayList<>();
+        for (int i = 0; i < Data.getTowns().size(); i++) {
+            townList.add(Data.getTowns().get(i).getTown_ar());
+        }
+        ArrayAdapter<String> townAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, townList);
+        townEditSpinner.setAdapter(townAdapter);
+
+        //homeType (فيلا .. شاليه .. منزل)
+        ArrayAdapter<String> homeTypesAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, Data.getHomeTypes());
+        homeTypeEditSpinner.setAdapter(homeTypesAdapter);
+
+        // contract type
+        ArrayAdapter<String> contractTypeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, Data.getContractType());
+        contractTypeEditSpinner.setAdapter(contractTypeAdapter);
+
+        // rooms Number and bathroom num
+        roomsNumList = new ArrayList<>();
+        bathroomNumList = new ArrayList<>();
+        for (int i = 1; i < 10; i++) {
+            roomsNumList.add(String.valueOf(i));
+            bathroomNumList.add(String.valueOf(i));
+        }
+        ArrayAdapter<String> roomsNumAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, roomsNumList);
+        roomsNumEditSpinner.setAdapter(roomsNumAdapter);
+
+        ArrayAdapter<String> bathroomNumAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, bathroomNumList);
+        bathroomNumEditSpinner.setAdapter(bathroomNumAdapter);
+
     }
+
     private void createInstance() {
         mArrayUri = new ArrayList<>();
     }
@@ -84,11 +118,65 @@ public class AddPostActivity extends AppCompatActivity implements IAddPostPresen
             }
         });
 
+        townEditSpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Town town = Data.getTowns().get(i);
+                townString = town.getTown_ar();
+                Log.i("townString", townString);
+
+                //city
+                townId = town.getId();
+                List<String> cityList = new ArrayList<>();
+                for (int j = 0; j < Data.getCities(townId).size(); j++) {
+                    cityList.add(Data.getCities(townId).get(j).getTown_ar());
+                }
+
+
+                ArrayAdapter<String> cityAdapter = new ArrayAdapter<>(AddPostActivity.this, android.R.layout.simple_spinner_dropdown_item, cityList);
+                cityEditSpinner.setAdapter(cityAdapter);
+            }
+        });
+
+        cityEditSpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Town town = Data.getCities(townId).get(i);
+                cityString = town.getTown_ar();
+                Log.i("cityString", cityString);
+
+            }
+        });
+
         homeTypeEditSpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                homeType = homeTypeList.get(i).toString();
-                Log.i("homeType", homeType);
+                homeTypeString = Data.getHomeTypes().get(i);
+                Log.i("homeTypeString", homeTypeString);
+            }
+        });
+
+        contractTypeEditSpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                contractTypeString = Data.getContractType().get(i);
+                Log.i("contractTypeString", contractTypeString);
+            }
+        });
+
+        roomsNumEditSpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                roomsNumString = roomsNumList.get(i);
+                Log.i("roomsNumString", roomsNumString);
+            }
+        });
+
+        bathroomNumEditSpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                bathroomNumString = bathroomNumList.get(i);
+                Log.i("bathroomNumString", bathroomNumString);
             }
         });
     }
@@ -98,18 +186,19 @@ public class AddPostActivity extends AppCompatActivity implements IAddPostPresen
         String price = priceEditText.getText().toString();
         String area = areaEditText.getText().toString();
         String desc = titleEditText.getText().toString();
-        String roomsNum = roomsNumEditText.getText().toString();
-        String bathroomNum = bathroomNumEditText.getText().toString();
 
         if (mArrayUri.size() == 0) {
             Toast.makeText(AddPostActivity.this, "Please add images first", Toast.LENGTH_SHORT).show();
         } else if (location.isEmpty() || price.isEmpty() || area.isEmpty() || desc.isEmpty()
-                || roomsNum.isEmpty() || bathroomNum.isEmpty()) {
+                || townString.isEmpty() || cityString.isEmpty() || contractTypeString.isEmpty() || homeTypeString.isEmpty()
+                || roomsNumString.isEmpty() || bathroomNumString.isEmpty()) {
             Toast.makeText(AddPostActivity.this, "Please fill this data first", Toast.LENGTH_SHORT).show();
         } else {
             LoadingDialog.showProgress(this);
             addPostPresenterImp = new AddPostPresenterImp(this, AddPostActivity.this);
-            addPostPresenterImp.uploadPostAndImages(mArrayUri, desc, location, area, price, roomsNum + " غرف ", bathroomNum + " حمام ", homeType);
+            addPostPresenterImp.uploadPostAndImages(mArrayUri, desc, location, area, price,
+                    roomsNumString , bathroomNumString ,
+                    homeTypeString, contractTypeString, townString, cityString);
         }
     }
 
@@ -134,11 +223,16 @@ public class AddPostActivity extends AppCompatActivity implements IAddPostPresen
         titleEditText = findViewById(R.id.title_edit);
         areaEditText = findViewById(R.id.area_edit);
         priceEditText = findViewById(R.id.price_edit);
-        roomsNumEditText = findViewById(R.id.rooms_num_edit);
-        bathroomNumEditText = findViewById(R.id.bathroom_num_edit);
+        bathroomNumEditSpinner = findViewById(R.id.bathroom_num_edit);
         addImages = findViewById(R.id.new_post_image);
         uploadPost = findViewById(R.id.upload_button);
         homeTypeEditSpinner = findViewById(R.id.home_type_edit);
+
+        townEditSpinner = findViewById(R.id.town_name_spinner);
+        cityEditSpinner = findViewById(R.id.city_name_spinner);
+        contractTypeEditSpinner = findViewById(R.id.contract_spinner);
+        roomsNumEditSpinner = findViewById(R.id.rooms_number_spinner);
+
     }
 
     @Override

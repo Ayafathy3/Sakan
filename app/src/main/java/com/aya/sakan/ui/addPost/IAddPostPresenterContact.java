@@ -11,7 +11,9 @@ public interface IAddPostPresenterContact {
     }
 
     interface Presenter {
-        void uploadPostAndImages(List<Uri> imageList, String desc, String location, String area, String price, String roomsNum, String bathroomNum,String homeType);
+        void uploadPostAndImages(List<Uri> imageList, String desc, String location, String area, String price,
+                                 String roomsNum, String bathroomNum, String homeType,
+                                 String contractType, String town, String city);
 
     }
 }

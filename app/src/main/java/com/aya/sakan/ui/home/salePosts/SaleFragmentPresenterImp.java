@@ -48,7 +48,7 @@ public class SaleFragmentPresenterImp implements IHomePresenterContract.Presente
 
     @Override
     public void getPosts() {
-        Query firstQuery = firebaseFirestore.collection("Posts").whereEqualTo("home_type", "Sale").orderBy("timestamp", Query.Direction.DESCENDING).limit(3);
+        Query firstQuery = firebaseFirestore.collection("Posts").whereEqualTo("contractType", "بيع").orderBy("timestamp", Query.Direction.DESCENDING).limit(3);
         firstQuery.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
@@ -73,11 +73,14 @@ public class SaleFragmentPresenterImp implements IHomePresenterContract.Presente
                                 String price = doc.getDocument().getString("price");
                                 String userId = doc.getDocument().getString("userId");
                                 String home_type = doc.getDocument().getString("home_type");
+                                String town = doc.getDocument().getString("town");
+                                String city = doc.getDocument().getString("city");
+                                String contractType = doc.getDocument().getString("contractType");
                                 Date timestamp = doc.getDocument().getDate("timestamp");
                                 ArrayList<String> images_url = (ArrayList<String>) doc.getDocument().get("images_url");
 
                                 Post post = new Post(timestamp, images_url, area, desc, roomsNum, bathroomNum, location,
-                                        price, userId, home_type);
+                                        price, userId, home_type, contractType, town, city);
                                 loadUserData(post, "first");
 
                             }
@@ -97,7 +100,7 @@ public class SaleFragmentPresenterImp implements IHomePresenterContract.Presente
 
         if (mAuth.getCurrentUser() != null) {
 
-            Query nextQuery = firebaseFirestore.collection("Posts").whereEqualTo("home_type", "Sale").orderBy("timestamp", Query.Direction.DESCENDING).startAfter(lastVisible).limit(3);
+            Query nextQuery = firebaseFirestore.collection("Posts").whereEqualTo("contractType", "بيع").orderBy("timestamp", Query.Direction.DESCENDING).startAfter(lastVisible).limit(3);
 
             nextQuery.addSnapshotListener(new EventListener<QuerySnapshot>() {
                 @Override
@@ -109,7 +112,22 @@ public class SaleFragmentPresenterImp implements IHomePresenterContract.Presente
                             for (DocumentChange doc : documentSnapshots.getDocumentChanges()) {
                                 if (doc.getType() == DocumentChange.Type.ADDED) {
 
-                                    Post post = doc.getDocument().toObject(Post.class);
+                                    String area = doc.getDocument().getString("area");
+                                    String desc = doc.getDocument().getString("desc");
+                                    String roomsNum = doc.getDocument().getString("roomsNum");
+                                    String bathroomNum = doc.getDocument().getString("bathroomNum");
+                                    String location = doc.getDocument().getString("location");
+                                    String price = doc.getDocument().getString("price");
+                                    String userId = doc.getDocument().getString("userId");
+                                    String home_type = doc.getDocument().getString("home_type");
+                                    String town = doc.getDocument().getString("town");
+                                    String city = doc.getDocument().getString("city");
+                                    String contractType = doc.getDocument().getString("contractType");
+                                    Date timestamp = doc.getDocument().getDate("timestamp");
+                                    ArrayList<String> images_url = (ArrayList<String>) doc.getDocument().get("images_url");
+
+                                    Post post = new Post(timestamp, images_url, area, desc, roomsNum, bathroomNum, location,
+                                            price, userId, home_type, contractType, town, city);
                                     loadUserData(post, "more");
                                 }
                             }

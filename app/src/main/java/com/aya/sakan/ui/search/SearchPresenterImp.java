@@ -1,4 +1,4 @@
-package com.aya.sakan.ui.home.rentPosts;
+package com.aya.sakan.ui.search;
 
 import android.content.Context;
 import android.util.Log;
@@ -23,11 +23,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class RentFragmentPresenterImp implements IHomePresenterContract.Presenter {
+public class SearchPresenterImp implements ISearchPresenterContract.Presenter {
 
-    private IHomePresenterContract.View mView;
+    private ISearchPresenterContract.View mView;
     private FirebaseAuth mAuth;
-    private static final String TAG = "RentFragPresenterImp";
+    private static final String TAG = "SearchPresenterImp";
     private Context context;
     FirebaseFirestore firebaseFirestore;
     private DocumentSnapshot lastVisible;
@@ -35,8 +35,7 @@ public class RentFragmentPresenterImp implements IHomePresenterContract.Presente
     private Boolean isFirstPageFirstLoad = true;
     private String userName, userImage;
 
-
-    public RentFragmentPresenterImp(IHomePresenterContract.View mView, Context context) {
+    public SearchPresenterImp(ISearchPresenterContract.View mView, Context context) {
         this.mView = mView;
         this.context = context;
         firebaseFirestore = FirebaseFirestore.getInstance();
@@ -45,8 +44,10 @@ public class RentFragmentPresenterImp implements IHomePresenterContract.Presente
     }
 
     @Override
-    public void getPosts() {
-        Query firstQuery = firebaseFirestore.collection("Posts").whereEqualTo("contractType", "ايجار").orderBy("timestamp", Query.Direction.DESCENDING).limit(3);
+    public void getPosts(String town, String city, String homeType, String contractType, String lowPrice, String highPrice, String roomsNum) {
+
+        Query firstQuery = firebaseFirestore.collection("Posts").whereEqualTo("contractType", contractType)
+                .orderBy("timestamp", Query.Direction.DESCENDING).limit(3);
         firstQuery.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
@@ -90,53 +91,10 @@ public class RentFragmentPresenterImp implements IHomePresenterContract.Presente
             }
 
         });
-
     }
 
     @Override
-    public void loadMorePosts() {
-
-        if (mAuth.getCurrentUser() != null) {
-
-            Query nextQuery = firebaseFirestore.collection("Posts").whereEqualTo("contractType", "ايجار").orderBy("timestamp", Query.Direction.DESCENDING).startAfter(lastVisible).limit(3);
-
-            nextQuery.addSnapshotListener(new EventListener<QuerySnapshot>() {
-                @Override
-                public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
-                    if (e == null) {
-                        if (!documentSnapshots.isEmpty()) {
-
-                            lastVisible = documentSnapshots.getDocuments().get(documentSnapshots.size() - 1);
-                            for (DocumentChange doc : documentSnapshots.getDocumentChanges()) {
-                                if (doc.getType() == DocumentChange.Type.ADDED) {
-
-                                    String area = doc.getDocument().getString("area");
-                                    String desc = doc.getDocument().getString("desc");
-                                    String roomsNum = doc.getDocument().getString("roomsNum");
-                                    String bathroomNum = doc.getDocument().getString("bathroomNum");
-                                    String location = doc.getDocument().getString("location");
-                                    String price = doc.getDocument().getString("price");
-                                    String userId = doc.getDocument().getString("userId");
-                                    String home_type = doc.getDocument().getString("home_type");
-                                    String town = doc.getDocument().getString("town");
-                                    String city = doc.getDocument().getString("city");
-                                    String contractType = doc.getDocument().getString("contractType");
-                                    Date timestamp = doc.getDocument().getDate("timestamp");
-                                    ArrayList<String> images_url = (ArrayList<String>) doc.getDocument().get("images_url");
-
-                                    Post post = new Post(timestamp, images_url, area, desc, roomsNum, bathroomNum, location,
-                                            price, userId, home_type, contractType, town, city);
-                                    loadUserData(post, "more");
-                                }
-                            }
-                        }
-                    } else {
-                        Log.i(TAG, "load more posts failed: " + e.getMessage());
-                    }
-                }
-            });
-
-        }
+    public void loadMorePosts(String town, String city, String homeType, String contractType, String lowPrice, String highPrice, String roomsNum) {
 
     }
 
@@ -178,6 +136,5 @@ public class RentFragmentPresenterImp implements IHomePresenterContract.Presente
                 Log.i(TAG, "get user data failed: " + e.getMessage());
             }
         });
-
     }
 }

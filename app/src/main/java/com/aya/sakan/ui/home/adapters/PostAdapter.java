@@ -53,10 +53,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         final Post post = arrayList.get(position);
 
         holder.title.setText(post.getTitle());
-        holder.bathroomNum.setText(post.getBathroomsNum());
-        holder.area.setText(post.getArea());
-        holder.roomsNum.setText(post.getRoomsNum());
-        holder.price.setText(post.getPrice());
+        holder.bathroomNum.setText(post.getBathroomsNum()+" حمام ");
+        holder.area.setText(post.getArea()+" m² ");
+        holder.roomsNum.setText(post.getRoomsNum() + " غرف ");
+        holder.price.setText(post.getPrice() + " EGP ");
 
         //date
         long millisecond = post.getDate().getTime();
