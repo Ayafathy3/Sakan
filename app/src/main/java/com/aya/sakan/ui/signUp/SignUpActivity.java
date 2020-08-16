@@ -31,6 +31,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.reginald.editspinner.EditSpinner;
@@ -46,7 +47,7 @@ public class SignUpActivity extends AppCompatActivity implements ISignUpPresente
     private GoogleSignInClient mGoogleSignInClient;
     private CallbackManager callbackManager;
     private Button facebookSignUp, googleSignUp, signUp;
-    private EditText emailEditText, passwordEditText, confirmPassEditText, rentedNameEditText, rentedPhoneEditText;
+    private TextInputEditText emailEditText, passwordEditText, confirmPassEditText, rentedNameEditText, rentedPhoneEditText;
     private EditSpinner accountTypeEditSpinner;
     private MaterialCardView rentedCardView, tenantCardView;
     private LinearLayout rentedEditsLinearLayout;

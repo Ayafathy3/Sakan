@@ -1,4 +1,4 @@
-package com.aya.sakan.ui.home.salePosts;
+package com.aya.sakan.ui.home;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.aya.sakan.R;
-import com.aya.sakan.ui.home.IHomePresenterContract;
 import com.aya.sakan.ui.home.adapters.Post;
 import com.aya.sakan.ui.home.adapters.PostAdapter;
 
@@ -23,8 +22,8 @@ public class SaleFragment extends Fragment implements IHomePresenterContract.Vie
 
     private RecyclerView recyclerView;
     private PostAdapter postAdapter;
-    private SaleFragmentPresenterImp saleFragmentPresenterImp;
-    private List<Post> postList;
+    private HomeFragmentPresenterImp homeFragmentPresenterImp;
+    public List<Post> postList;
 
     public SaleFragment() {
         // Required empty public constructor
@@ -35,8 +34,8 @@ public class SaleFragment extends Fragment implements IHomePresenterContract.Vie
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.home_fragment, container, false);
 
-        saleFragmentPresenterImp = new SaleFragmentPresenterImp(this, getActivity());
-        saleFragmentPresenterImp.getPosts();
+        homeFragmentPresenterImp = new HomeFragmentPresenterImp(this, getActivity());
+        homeFragmentPresenterImp.getPosts("بيع");
 
         setUpRecyclerView(view);
         return view;
@@ -53,7 +52,7 @@ public class SaleFragment extends Fragment implements IHomePresenterContract.Vie
                 super.onScrolled(recyclerView, dx, dy);
                 Boolean reachedBottom = !recyclerView.canScrollVertically(1);
                 if (reachedBottom) {
-                    saleFragmentPresenterImp.loadMorePosts();
+                    homeFragmentPresenterImp.loadMorePosts("بيع");
                 }
             }
         });
@@ -67,13 +66,15 @@ public class SaleFragment extends Fragment implements IHomePresenterContract.Vie
 
     @Override
     public void showPost(List<Post> postList) {
-        this.postList = postList;
-        postAdapter = new PostAdapter(postList);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(postAdapter);
-        recyclerView.setHasFixedSize(true);
+        if (postList != null) {
+            this.postList = postList;
+            postAdapter = new PostAdapter(postList);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            recyclerView.setAdapter(postAdapter);
+            recyclerView.setHasFixedSize(true);
 
-        postAdapter.notifyDataSetChanged();
+            postAdapter.notifyDataSetChanged();
+        }
     }
 }
 

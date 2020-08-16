@@ -40,44 +40,58 @@
         app:layout_constraintStart_toStartOf="@id/guide_line_start"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/email_edit"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/_40sdp"
-        android:layout_marginTop="@dimen/_22sdp"
-        android:background="@drawable/bac_edit"
-        android:gravity="center_vertical"
-        android:hint="@string/email"
-        android:inputType="textEmailAddress"
-        android:padding="@dimen/_12sdp"
-        android:paddingStart="@dimen/_6sdp"
-        android:paddingEnd="@dimen/_6sdp"
-        android:textColor="@color/davygrey"
-        android:textColorHint="@color/manatee_1"
-        android:textSize="@dimen/_14ssp"
-        app:layout_constraintEnd_toStartOf="@id/guide_line_end"
-        app:layout_constraintStart_toStartOf="@id/guide_line_start"
-        app:layout_constraintTop_toBottomOf="@id/login_text" />
 
-    <EditText
-        android:id="@+id/pass_edit"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/email_edit_layout"
         android:layout_width="0dp"
         android:layout_height="@dimen/_40sdp"
         android:layout_marginTop="@dimen/_12sdp"
-        android:background="@drawable/bac_edit"
-        android:drawableEnd="@drawable/hide_pass"
-        android:gravity="center_vertical"
-        android:hint="@string/password"
-        android:inputType="textPassword"
-        android:paddingStart="@dimen/_6sdp"
-        android:paddingEnd="@dimen/_6sdp"
-        android:textColor="@color/davygrey"
-        android:textColorHint="@color/manatee"
-        android:textSize="@dimen/_14ssp"
+        android:orientation="vertical"
         app:layout_constraintEnd_toStartOf="@id/guide_line_end"
         app:layout_constraintStart_toStartOf="@id/guide_line_start"
-        app:layout_constraintTop_toBottomOf="@id/email_edit" />
+        app:layout_constraintTop_toBottomOf="@id/login_text">
 
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/email_edit"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bac_edit"
+            android:gravity="center_vertical"
+            android:hint="@string/email"
+            android:inputType="textEmailAddress"
+            android:paddingStart="@dimen/_6sdp"
+            android:paddingEnd="@dimen/_6sdp"
+            android:textColor="@color/davygrey"
+            android:textColorHint="@color/manatee_1"
+            android:textSize="@dimen/_14ssp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/pass_edit_layout"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_marginTop="@dimen/_12sdp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toStartOf="@id/guide_line_end"
+        app:layout_constraintStart_toStartOf="@id/guide_line_start"
+        app:layout_constraintTop_toBottomOf="@id/email_edit_layout"
+        app:passwordToggleEnabled="true"
+        app:passwordToggleTint="@color/verdigris">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/pass_edit"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bac_edit"
+            android:gravity="center_vertical"
+            android:hint="@string/password"
+            android:inputType="textPassword"
+            android:paddingStart="@dimen/_6sdp"
+            android:paddingEnd="@dimen/_6sdp"
+            android:textColor="@color/davygrey"
+            android:textColorHint="@color/manatee"
+            android:textSize="@dimen/_14ssp" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/button_login"
@@ -93,7 +107,7 @@
         android:textSize="@dimen/_14ssp"
         app:layout_constraintEnd_toStartOf="@id/guide_line_end"
         app:layout_constraintStart_toStartOf="@id/guide_line_start"
-        app:layout_constraintTop_toBottomOf="@id/pass_edit" />
+        app:layout_constraintTop_toBottomOf="@id/pass_edit_layout" />
 
     <TextView
         android:id="@+id/pass_forget"
@@ -230,8 +244,8 @@
         android:textColor="@color/davygrey"
         android:textSize="@dimen/_14ssp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/sign_up_title"
-        app:layout_goneMarginStart="@dimen/_100sdp"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_goneMarginStart="@dimen/_100sdp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

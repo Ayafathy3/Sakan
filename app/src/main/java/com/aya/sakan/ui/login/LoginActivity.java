@@ -7,6 +7,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
@@ -32,13 +34,14 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity implements ILoginPresenterContract.View {
     private static final int RC_SIGN_IN = 100;
     public static final String TAG = "LoginActivity";
-    private EditText emailEdit, passEdit;
+    private TextInputEditText emailEdit, passEdit;
     private Button loginButton, facebookButton, googleButton;
     private LoginButton loginButtonFB;
     private TextView recoverPass, signUp;
@@ -55,6 +58,16 @@ public class LoginActivity extends AppCompatActivity implements ILoginPresenterC
         initiViews();
         createInstance();
         setListeners();
+
+/*
+        if(showHideBtn.text.toString().equals("Show")){
+            pwd.transformationMethod = HideReturnsTransformationMethod.getInstance()
+            showHideBtn.text = "Hide"
+        } else{
+            pwd.transformationMethod = PasswordTransformationMethod.getInstance()
+            showHideBtn.text = "Show"
+        }
+*/
 
     }
 

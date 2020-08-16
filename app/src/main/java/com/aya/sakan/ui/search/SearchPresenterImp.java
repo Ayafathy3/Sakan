@@ -44,9 +44,17 @@ public class SearchPresenterImp implements ISearchPresenterContract.Presenter {
     }
 
     @Override
-    public void getPosts(String town, String city, String homeType, String contractType, String lowPrice, String highPrice, String roomsNum) {
+    public void getPosts(String town, String city, String homeType, String contractType,
+                         Long lowPrice, Long highPrice) {
 
-        Query firstQuery = firebaseFirestore.collection("Posts").whereEqualTo("contractType", contractType)
+        Query firstQuery = firebaseFirestore.collection("Posts")
+                .whereEqualTo("contractType", contractType)
+                .whereEqualTo("home_type", homeType)
+                .whereEqualTo("town", town)
+                .whereEqualTo("city", city)
+                .whereGreaterThanOrEqualTo("price", lowPrice)
+                .whereLessThanOrEqualTo("price", highPrice)
+                .orderBy("price")
                 .orderBy("timestamp", Query.Direction.DESCENDING).limit(3);
         firstQuery.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
@@ -69,7 +77,7 @@ public class SearchPresenterImp implements ISearchPresenterContract.Presenter {
                                 String roomsNum = doc.getDocument().getString("roomsNum");
                                 String bathroomNum = doc.getDocument().getString("bathroomNum");
                                 String location = doc.getDocument().getString("location");
-                                String price = doc.getDocument().getString("price");
+                                Long price = doc.getDocument().getLong("price");
                                 String userId = doc.getDocument().getString("userId");
                                 String home_type = doc.getDocument().getString("home_type");
                                 String town = doc.getDocument().getString("town");
@@ -84,6 +92,8 @@ public class SearchPresenterImp implements ISearchPresenterContract.Presenter {
 
                             }
                         }
+                    } else {
+                        mView.showPost(null);
                     }
                 } else {
                     Log.i(TAG, "get posts failed: " + e.getMessage());
@@ -94,8 +104,54 @@ public class SearchPresenterImp implements ISearchPresenterContract.Presenter {
     }
 
     @Override
-    public void loadMorePosts(String town, String city, String homeType, String contractType, String lowPrice, String highPrice, String roomsNum) {
+    public void loadMorePosts(String town, String city, String homeType, String contractType,
+                              Long lowPrice, Long highPrice) {
+        Query nextQuery = firebaseFirestore.collection("Posts")
+                .whereEqualTo("contractType", contractType)
+                .whereEqualTo("home_type", homeType)
+                .whereEqualTo("town", town)
+                .whereEqualTo("city", city)
+                .whereGreaterThanOrEqualTo("price", lowPrice)
+                .whereLessThanOrEqualTo("price", highPrice)
+                .orderBy("price")
+                .orderBy("timestamp", Query.Direction.DESCENDING)
+                .startAfter(lastVisible).limit(3);
 
+        nextQuery.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
+                if (e == null) {
+                    if (!documentSnapshots.isEmpty()) {
+
+                        lastVisible = documentSnapshots.getDocuments().get(documentSnapshots.size() - 1);
+                        for (DocumentChange doc : documentSnapshots.getDocumentChanges()) {
+                            if (doc.getType() == DocumentChange.Type.ADDED) {
+
+                                String area = doc.getDocument().getString("area");
+                                String desc = doc.getDocument().getString("desc");
+                                String roomsNum = doc.getDocument().getString("roomsNum");
+                                String bathroomNum = doc.getDocument().getString("bathroomNum");
+                                String location = doc.getDocument().getString("location");
+                                Long price = doc.getDocument().getLong("price");
+                                String userId = doc.getDocument().getString("userId");
+                                String home_type = doc.getDocument().getString("home_type");
+                                String town = doc.getDocument().getString("town");
+                                String city = doc.getDocument().getString("city");
+                                String contractType = doc.getDocument().getString("contractType");
+                                Date timestamp = doc.getDocument().getDate("timestamp");
+                                ArrayList<String> images_url = (ArrayList<String>) doc.getDocument().get("images_url");
+
+                                Post post = new Post(timestamp, images_url, area, desc, roomsNum, bathroomNum, location,
+                                        price, userId, home_type, contractType, town, city);
+                                loadUserData(post, "more");
+                            }
+                        }
+                    }
+                } else {
+                    Log.i(TAG, "load more posts failed: " + e.getMessage());
+                }
+            }
+        });
     }
 
     public void loadUserData(final Post post, final String isFirsTime) {

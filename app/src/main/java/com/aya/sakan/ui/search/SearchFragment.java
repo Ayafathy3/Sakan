@@ -1,13 +1,16 @@
 package com.aya.sakan.ui.search;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,11 +29,12 @@ public class SearchFragment extends Fragment {
     private Button search;
     private int townId;
     private EditSpinner townEditSpinner, cityEditSpinner, homeTypeEditSpinner,
-            contractTypeEditSpinner, lowPriceEditSpinner, highPriceEditSpinner, roomsNumEditSpinner;
+            contractTypeEditSpinner, lowPriceEditSpinner, highPriceEditSpinner;
 
-    private ArrayList<String> priceListRent, priceListSale, roomsNumList;
+    private ArrayList<Long> priceListRent, priceListSale;
     private String townString, cityString, homeTypeString,
-            contractTypeString, lowPriceString, highPriceString, roomsNumString;
+            contractTypeString;
+    private Long lowPriceString, highPriceString;
 
     @Nullable
     @Override
@@ -55,7 +59,6 @@ public class SearchFragment extends Fragment {
         contractTypeEditSpinner = view.findViewById(R.id.contract_spinner);
         lowPriceEditSpinner = view.findViewById(R.id.less_price_spinner);
         highPriceEditSpinner = view.findViewById(R.id.most_price_spinner);
-        roomsNumEditSpinner = view.findViewById(R.id.rooms_number_spinner);
         search = view.findViewById(R.id.button_search);
     }
 
@@ -77,14 +80,6 @@ public class SearchFragment extends Fragment {
         ArrayAdapter<String> contractTypeAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, Data.getContractType());
         contractTypeEditSpinner.setAdapter(contractTypeAdapter);
 
-        // rooms Number
-        roomsNumList = new ArrayList<>();
-        for (int i = 1; i < 10; i++) {
-            roomsNumList.add(String.valueOf(i));
-        }
-        ArrayAdapter<String> roomsNumAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, roomsNumList);
-        roomsNumEditSpinner.setAdapter(roomsNumAdapter);
-
         fillPriceList();
 
     }
@@ -92,41 +87,42 @@ public class SearchFragment extends Fragment {
     private void fillPriceList() {
         // price rent
         priceListRent = new ArrayList<>();
-        priceListRent.add("100");
-        priceListRent.add("150");
-        priceListRent.add("200");
-        priceListRent.add("250");
-        priceListRent.add("300");
-        priceListRent.add("350");
-        priceListRent.add("400");
-        priceListRent.add("450");
-        priceListRent.add("500");
-        priceListRent.add("550");
-        priceListRent.add("750");
-        priceListRent.add("1000");
-        priceListRent.add("2000");
-        priceListRent.add("3000");
-        priceListRent.add("4000");
-        priceListRent.add("5000");
-        priceListRent.add("7500");
-        priceListRent.add("10000");
-        priceListRent.add("15000");
-        priceListRent.add("20000");
+        priceListRent.add(100L);
+        priceListRent.add(150L);
+        priceListRent.add(200L);
+        priceListRent.add(250L);
+        priceListRent.add(300L);
+        priceListRent.add(350L);
+        priceListRent.add(400L);
+        priceListRent.add(450L);
+        priceListRent.add(500L);
+        priceListRent.add(550L);
+        priceListRent.add(750L);
+        priceListRent.add(1000L);
+        priceListRent.add(2000L);
+        priceListRent.add(3000L);
+        priceListRent.add(4000L);
+        priceListRent.add(5000L);
+        priceListRent.add(7500L);
+        priceListRent.add(10000L);
+        priceListRent.add(15000L);
+        priceListRent.add(20000L);
 
         // price sale
         priceListSale = new ArrayList<>();
-        priceListSale.add("1.000");
-        priceListSale.add("10.000");
-        priceListSale.add("50.000");
-        priceListSale.add("100.000");
-        priceListSale.add("250.000");
-        priceListSale.add("500.000");
-        priceListSale.add("750.000");
-        priceListSale.add("1.000.000");
-        priceListSale.add("5.000.000");
-        priceListSale.add("10.000.000");
+        priceListSale.add(1000L);
+        priceListSale.add(10000L);
+        priceListSale.add(50000L);
+        priceListSale.add(100000L);
+        priceListSale.add(250000L);
+        priceListSale.add(500000L);
+        priceListSale.add(750000L);
+        priceListSale.add(1000000L);
+        priceListSale.add(5000000L);
+        priceListSale.add(10000000L);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void setListeners() {
         townEditSpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -153,7 +149,19 @@ public class SearchFragment extends Fragment {
                 Town town = Data.getCities(townId).get(i);
                 cityString = town.getTown_ar();
                 Log.i("cityString", cityString);
+            }
+        });
 
+        cityEditSpinner.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    if (townId == 0) {
+                        Toast.makeText(getActivity(), "Please choose town first", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                return false;
             }
         });
 
@@ -173,22 +181,35 @@ public class SearchFragment extends Fragment {
 
                 if (contractTypeString.equals("بيع")) {
                     // low price
-                    ArrayAdapter<String> lowPriceAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, priceListSale);
+                    ArrayAdapter<Long> lowPriceAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, priceListSale);
                     lowPriceEditSpinner.setAdapter(lowPriceAdapter);
 
                     // high price
-                    ArrayAdapter<String> highPriceAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, priceListSale);
+                    ArrayAdapter<Long> highPriceAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, priceListSale);
                     highPriceEditSpinner.setAdapter(highPriceAdapter);
 
                 } else if (contractTypeString.equals("ايجار")) {
                     // low price
-                    ArrayAdapter<String> lowPriceAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, priceListRent);
+                    ArrayAdapter<Long> lowPriceAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, priceListRent);
                     lowPriceEditSpinner.setAdapter(lowPriceAdapter);
 
                     // high price
-                    ArrayAdapter<String> highPriceAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, priceListRent);
+                    ArrayAdapter<Long> highPriceAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, priceListRent);
                     highPriceEditSpinner.setAdapter(highPriceAdapter);
                 }
+            }
+        });
+
+        lowPriceEditSpinner.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    if (contractTypeString == null) {
+                        Toast.makeText(getActivity(), "Please choose contract type first", Toast.LENGTH_LONG).show();
+                    }
+                }
+                return false;
             }
         });
 
@@ -200,7 +221,20 @@ public class SearchFragment extends Fragment {
                 } else if (contractTypeString.equals("ايجار")) {
                     lowPriceString = priceListRent.get(i);
                 }
-                Log.i("lowPriceString", lowPriceString);
+                Log.i("lowPriceString", String.valueOf(lowPriceString));
+            }
+        });
+
+        highPriceEditSpinner.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    if (contractTypeString == null) {
+                        Toast.makeText(getActivity(), "Please choose contract type first", Toast.LENGTH_LONG).show();
+                    }
+                }
+                return false;
             }
         });
 
@@ -212,15 +246,7 @@ public class SearchFragment extends Fragment {
                 } else if (contractTypeString.equals("ايجار")) {
                     highPriceString = priceListRent.get(i);
                 }
-                Log.i("highPriceString", highPriceString);
-            }
-        });
-
-        roomsNumEditSpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                roomsNumString = roomsNumList.get(i);
-                Log.i("roomsNumString", roomsNumString);
+                Log.i("highPriceString", String.valueOf(highPriceString));
             }
         });
 
@@ -229,17 +255,23 @@ public class SearchFragment extends Fragment {
             public void onClick(View view) {
                 Bundle bundle = new Bundle();
 
-                bundle.putString("town", townString);
-                bundle.putString("city", cityString);
-                bundle.putString("homeType", homeTypeString);
-                bundle.putString("contractType", contractTypeString);
-                bundle.putString("lowPrice", lowPriceString);
-                bundle.putString("highPrice", highPriceString);
-                bundle.putString("roomsNum", roomsNumString);
-                ResultSearchFragment resultSearchFragment = new ResultSearchFragment();
-                resultSearchFragment.setArguments(bundle);
+                if (townString != null && cityString != null && homeTypeString != null &&
+                        contractTypeString != null && lowPriceString != null &&
+                        highPriceString != null) {
 
-                addFragment(resultSearchFragment);
+                    bundle.putString("town", townString);
+                    bundle.putString("city", cityString);
+                    bundle.putString("homeType", homeTypeString);
+                    bundle.putString("contractType", contractTypeString);
+                    bundle.putLong("lowPrice", lowPriceString);
+                    bundle.putLong("highPrice", highPriceString);
+                    ResultSearchFragment resultSearchFragment = new ResultSearchFragment();
+                    resultSearchFragment.setArguments(bundle);
+
+                    addFragment(resultSearchFragment);
+                } else {
+                    Toast.makeText(getActivity(), "Please choose all filters first", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

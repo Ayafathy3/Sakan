@@ -4,17 +4,18 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Post implements Serializable {
+public class Post  {
     public Date timestamp;
     ArrayList<String> images_url;
-    private String area, desc, roomsNum, bathroomNum, location, price, userId, userName, userImg,
+    private String area, desc, roomsNum, bathroomNum, location, userId, userName, userImg,
             home_type, contractType, town, city;
+    private Long price;
 
     public Post() {
     }
 
     public Post(Date timestamp, ArrayList<String> images_url, String area, String desc,
-                String roomsNum, String bathroomNum, String location, String price,
+                String roomsNum, String bathroomNum, String location, Long price,
                 String userId, String home_type,
                 String contractType, String town, String city) {
         this.timestamp = timestamp;
@@ -52,7 +53,7 @@ public class Post implements Serializable {
         return timestamp;
     }
 
-    public String getPrice() {
+    public Long getPrice() {
         return price;
     }
 

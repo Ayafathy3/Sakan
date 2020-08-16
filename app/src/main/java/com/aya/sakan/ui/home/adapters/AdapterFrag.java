@@ -5,8 +5,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.aya.sakan.ui.home.salePosts.SaleFragment;
-import com.aya.sakan.ui.home.rentPosts.RentFragment;
+import com.aya.sakan.ui.home.SaleFragment;
+import com.aya.sakan.ui.home.RentFragment;
 
 public class AdapterFrag extends FragmentPagerAdapter {
 

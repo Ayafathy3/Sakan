@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.signUp.SignUpActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FAFAFA"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent">
+    android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        tools:context=".ui.signUp.SignUpActivity"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="vertical"
-        tools:context=".MVP.SignUp.SignUp">
+        android:layout_height="match_parent"
+        android:background="#FAFAFA">
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guide_line_center"
@@ -131,7 +128,6 @@
 
         </com.google.android.material.card.MaterialCardView>
 
-
         <LinearLayout
             android:id="@+id/rented_edits"
             android:layout_width="0dp"
@@ -146,7 +142,7 @@
                 android:id="@+id/account_type_spinner"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_40sdp"
-                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_6sdp"
                 android:background="@drawable/bac_edit"
                 android:drawableStart="@drawable/arrow"
                 android:editable="false"
@@ -154,8 +150,8 @@
                 android:gravity="center_vertical|left"
                 android:hint="@string/account_type"
                 android:layoutDirection="rtl"
-                android:padding="@dimen/_12sdp"
-                android:textColor="@color/taupe_1"
+                android:paddingStart="@dimen/_6sdp"
+                android:paddingEnd="@dimen/_6sdp"                android:textColor="@color/taupe_1"
                 android:textColorHint="@color/manatee"
                 android:textSize="@dimen/_12ssp"
                 android:textStyle="bold"
@@ -165,91 +161,131 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <EditText
-                android:id="@+id/rented_name_edit"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/rented_name_edit_layout"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_40sdp"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:background="@drawable/bac_edit"
-                android:gravity="center_vertical"
-                android:hint="@string/rented_name"
-                android:inputType="text"
-                android:padding="@dimen/_12sdp"
-                android:textColor="@color/taupe_1"
-                android:textColorHint="@color/manatee"
-                android:textSize="@dimen/_12ssp" />
+                android:layout_marginTop="@dimen/_6sdp">
 
-            <EditText
-                android:id="@+id/phone_edit"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/rented_name_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_40sdp"
+                    android:background="@drawable/bac_edit"
+                    android:gravity="center_vertical"
+                    android:hint="@string/rented_name"
+                    android:inputType="text"
+                    android:paddingStart="@dimen/_12sdp"
+                    android:paddingEnd="@dimen/_12sdp"
+                    android:textColor="@color/taupe_1"
+                    android:textColorHint="@color/manatee"
+                    android:textSize="@dimen/_12ssp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/phone_edit_layout"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_40sdp"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:background="@drawable/bac_edit"
-                android:gravity="center_vertical"
-                android:hint="@string/phone_number"
-                android:inputType="phone"
-                android:maxLength="11"
-                android:padding="@dimen/_12sdp"
-                android:textColor="@color/davygrey"
-                android:textColorHint="@color/manatee"
-                android:textSize="@dimen/_12ssp"
-                app:layout_constraintEnd_toStartOf="@id/guide_line_end"
-                app:layout_constraintStart_toStartOf="@id/guide_line_start"
-                app:layout_constraintTop_toBottomOf="@id/pass_edit" />
+                android:layout_marginTop="@dimen/_6sdp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/phone_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_40sdp"
+                    android:background="@drawable/bac_edit"
+                    android:gravity="center_vertical"
+                    android:hint="@string/phone_number"
+                    android:inputType="phone"
+                    android:maxLength="11"
+                    android:paddingStart="@dimen/_6sdp"
+                    android:paddingEnd="@dimen/_6sdp"                    android:textColor="@color/davygrey"
+                    android:textColorHint="@color/manatee"
+                    android:textSize="@dimen/_12ssp"
+                    app:layout_constraintEnd_toStartOf="@id/guide_line_end"
+                    app:layout_constraintStart_toStartOf="@id/guide_line_start"
+                    app:layout_constraintTop_toBottomOf="@id/pass_edit" />
+            </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
-        <EditText
-            android:id="@+id/email_edit"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/email_edit_layout"
             android:layout_width="0dp"
             android:layout_height="@dimen/_40sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:background="@drawable/bac_edit"
-            android:gravity="center_vertical"
-            android:hint="@string/email"
-            android:inputType="textEmailAddress"
-            android:padding="@dimen/_12sdp"
-            android:textColor="@color/davygrey"
-            android:textColorHint="@color/manatee_1"
-            android:textSize="@dimen/_14ssp"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:orientation="vertical"
             app:layout_constraintEnd_toStartOf="@id/guide_line_end"
             app:layout_constraintStart_toStartOf="@id/guide_line_start"
-            app:layout_constraintTop_toBottomOf="@id/rented_edits" />
+            app:layout_constraintTop_toBottomOf="@id/rented_edits">
 
-        <EditText
-            android:id="@+id/pass_edit"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_40sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:background="@drawable/bac_edit"
-            android:drawableEnd="@drawable/hide_pass"
-            android:gravity="center_vertical"
-            android:hint="@string/password"
-            android:inputType="textPassword"
-            android:padding="@dimen/_12sdp"
-            android:textColor="@color/taupe_1"
-            android:textColorHint="@color/manatee"
-            android:textSize="@dimen/_12ssp"
-            app:layout_constraintEnd_toStartOf="@id/guide_line_end"
-            app:layout_constraintStart_toStartOf="@id/guide_line_start"
-            app:layout_constraintTop_toBottomOf="@id/email_edit" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/email_edit"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bac_edit"
+                android:gravity="center_vertical"
+                android:hint="@string/email"
+                android:inputType="textEmailAddress"
+                android:paddingStart="@dimen/_6sdp"
+                android:paddingEnd="@dimen/_6sdp"                android:textColor="@color/davygrey"
+                android:textColorHint="@color/manatee_1"
+                android:textSize="@dimen/_14ssp" />
 
-        <EditText
-            android:id="@+id/re_pass_edit"
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/pass_edit_layout"
             android:layout_width="0dp"
             android:layout_height="@dimen/_40sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:background="@drawable/bac_edit"
-            android:drawableEnd="@drawable/hide_pass"
-            android:gravity="center_vertical"
-            android:hint="@string/confirm_password"
-            android:inputType="textPassword"
-            android:padding="@dimen/_12sdp"
-            android:textColor="@color/davygrey"
-            android:textColorHint="@color/manatee"
-            android:textSize="@dimen/_12ssp"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:orientation="vertical"
             app:layout_constraintEnd_toStartOf="@id/guide_line_end"
             app:layout_constraintStart_toStartOf="@id/guide_line_start"
-            app:layout_constraintTop_toBottomOf="@id/pass_edit" />
+            app:layout_constraintTop_toBottomOf="@id/email_edit_layout"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="@color/verdigris">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/pass_edit"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bac_edit"
+                android:gravity="center_vertical"
+                android:hint="@string/password"
+                android:inputType="textPassword"
+                android:paddingStart="@dimen/_6sdp"
+                android:paddingEnd="@dimen/_6sdp"
+                android:textColor="@color/davygrey"
+                android:textColorHint="@color/manatee"
+                android:textSize="@dimen/_12ssp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/confirm_pass_edit_layout"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toStartOf="@id/guide_line_end"
+            app:layout_constraintStart_toStartOf="@id/guide_line_start"
+            app:layout_constraintTop_toBottomOf="@id/pass_edit_layout"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="@color/verdigris">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/re_pass_edit"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bac_edit"
+                android:drawableEnd="@drawable/hide_pass"
+                android:gravity="center_vertical"
+                android:hint="@string/confirm_password"
+                android:inputType="textPassword"
+                android:paddingStart="@dimen/_6sdp"
+                android:paddingEnd="@dimen/_6sdp"
+                android:textColor="@color/davygrey"
+                android:textColorHint="@color/manatee"
+                android:textSize="@dimen/_12ssp" />
+        </com.google.android.material.textfield.TextInputLayout>
 
 
         <Button
@@ -266,13 +302,13 @@
             android:textSize="@dimen/_14ssp"
             app:layout_constraintEnd_toStartOf="@id/guide_line_end"
             app:layout_constraintStart_toStartOf="@id/guide_line_start"
-            app:layout_constraintTop_toBottomOf="@id/re_pass_edit" />
+            app:layout_constraintTop_toBottomOf="@id/confirm_pass_edit_layout" />
 
         <TextView
             android:id="@+id/txt_signUp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_6sdp"
             android:fontFamily="@font/cairo_bold"
             android:text="@string/sign_up_by"
             android:textColor="@color/davygrey"
@@ -364,4 +400,4 @@
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+</androidx.core.widget.NestedScrollView>

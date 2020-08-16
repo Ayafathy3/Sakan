@@ -14,9 +14,9 @@ public interface ISearchPresenterContract {
     interface Presenter {
 
         void loadMorePosts(String town, String city, String homeType,
-                           String contractType, String lowPrice, String highPrice, String roomsNum);
+                           String contractType, Long lowPrice, Long highPrice);
 
         void getPosts(String town, String city, String homeType,
-                      String contractType, String lowPrice, String highPrice, String roomsNum);
+                      String contractType, Long lowPrice, Long highPrice);
     }
 }

@@ -45,7 +45,7 @@ public class AddPostPresenterImp implements IAddPostPresenterContact.Presenter {
 
     @Override
     public void uploadPostAndImages(final List<Uri> imageList, final String desc, final String location,
-                                    final String area, final String price, final String roomsNum, final String bathroomNum, final String homeType,
+                                    final String area, final Long price, final String roomsNum, final String bathroomNum, final String homeType,
                                     final String contractType, final String town, final String city) {
 
         // upload images
@@ -83,7 +83,7 @@ public class AddPostPresenterImp implements IAddPostPresenterContact.Presenter {
     }
 
 
-    private void uploadPost(List<String> imageList, String desc, String location, String area, String price,
+    private void uploadPost(List<String> imageList, String desc, String location, String area, Long price,
                             String roomsNum, String bathroomNum, String homeType,
                             String contractType, String town, String city) {
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();

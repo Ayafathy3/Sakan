@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -14,6 +15,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -102,6 +104,7 @@ public class AddPostActivity extends AppCompatActivity implements IAddPostPresen
         mArrayUri = new ArrayList<>();
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void setListeners() {
 
         addImages.setOnClickListener(new View.OnClickListener() {
@@ -144,9 +147,22 @@ public class AddPostActivity extends AppCompatActivity implements IAddPostPresen
                 Town town = Data.getCities(townId).get(i);
                 cityString = town.getTown_ar();
                 Log.i("cityString", cityString);
-
             }
         });
+
+        cityEditSpinner.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    if (townId == 0) {
+                        Toast.makeText(AddPostActivity.this, "Please choose town first", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                return false;
+            }
+        });
+
 
         homeTypeEditSpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -196,8 +212,8 @@ public class AddPostActivity extends AppCompatActivity implements IAddPostPresen
         } else {
             LoadingDialog.showProgress(this);
             addPostPresenterImp = new AddPostPresenterImp(this, AddPostActivity.this);
-            addPostPresenterImp.uploadPostAndImages(mArrayUri, desc, location, area, price,
-                    roomsNumString , bathroomNumString ,
+            addPostPresenterImp.uploadPostAndImages(mArrayUri, desc, location, area, Long.valueOf(price),
+                    roomsNumString, bathroomNumString,
                     homeTypeString, contractTypeString, townString, cityString);
         }
     }

@@ -1,4 +1,4 @@
-package com.aya.sakan.ui.home.rentPosts;
+package com.aya.sakan.ui.home;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -11,9 +11,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.aya.sakan.R;
-import com.aya.sakan.ui.home.IHomePresenterContract;
 import com.aya.sakan.ui.home.adapters.Post;
 import com.aya.sakan.ui.home.adapters.PostAdapter;
+import com.aya.sakan.util.LoadingDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,8 +23,8 @@ public class RentFragment extends Fragment implements IHomePresenterContract.Vie
 
     private RecyclerView recyclerView;
     private PostAdapter postAdapter;
-    private RentFragmentPresenterImp rentFragmentPresenterImp;
-    private List<Post> postList;
+    private HomeFragmentPresenterImp rentFragmentPresenterImp;
+    public List<Post> postList;
 
     public RentFragment() {
         // Required empty public constructor
@@ -35,8 +35,9 @@ public class RentFragment extends Fragment implements IHomePresenterContract.Vie
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.home_fragment, container, false);
 
-        rentFragmentPresenterImp = new RentFragmentPresenterImp(this, getActivity());
-        rentFragmentPresenterImp.getPosts();
+        rentFragmentPresenterImp = new HomeFragmentPresenterImp(this, getActivity());
+        LoadingDialog.showProgress(getActivity());
+        rentFragmentPresenterImp.getPosts("ايجار");
 
         setUpRecyclerView(view);
         return view;
@@ -54,7 +55,7 @@ public class RentFragment extends Fragment implements IHomePresenterContract.Vie
                 super.onScrolled(recyclerView, dx, dy);
                 Boolean reachedBottom = !recyclerView.canScrollVertically(1);
                 if (reachedBottom) {
-                    rentFragmentPresenterImp.loadMorePosts();
+                    rentFragmentPresenterImp.loadMorePosts("ايجار");
                 }
             }
         });
@@ -68,12 +69,15 @@ public class RentFragment extends Fragment implements IHomePresenterContract.Vie
 
     @Override
     public void showPost(List<Post> postList) {
-        this.postList = postList;
-        postAdapter = new PostAdapter(postList);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(postAdapter);
-        recyclerView.setHasFixedSize(true);
+        if (postList != null) {
+            this.postList = postList;
+            postAdapter = new PostAdapter(postList);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            recyclerView.setAdapter(postAdapter);
+            recyclerView.setHasFixedSize(true);
 
-        postAdapter.notifyDataSetChanged();
+            postAdapter.notifyDataSetChanged();
+        }
+        LoadingDialog.hideProgress();
     }
 }

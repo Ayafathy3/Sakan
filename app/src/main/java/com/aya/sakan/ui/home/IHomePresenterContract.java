@@ -18,8 +18,8 @@ public interface IHomePresenterContract {
 
     interface Presenter {
 
-        void loadMorePosts();
+        void loadMorePosts(String contractType);
 
-        void getPosts();
+        void getPosts(String contractType);
     }
 }
