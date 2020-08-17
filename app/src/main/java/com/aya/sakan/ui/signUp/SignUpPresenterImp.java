@@ -78,7 +78,8 @@ public class SignUpPresenterImp implements ISignUpPresenterContract.Presenter {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithCredential:success");
+
+                            Log.i("SignUpPresenterImp", "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             mView.goToHome(user);
                         } else {

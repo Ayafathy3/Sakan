@@ -59,15 +59,6 @@ public class LoginActivity extends AppCompatActivity implements ILoginPresenterC
         createInstance();
         setListeners();
 
-/*
-        if(showHideBtn.text.toString().equals("Show")){
-            pwd.transformationMethod = HideReturnsTransformationMethod.getInstance()
-            showHideBtn.text = "Hide"
-        } else{
-            pwd.transformationMethod = PasswordTransformationMethod.getInstance()
-            showHideBtn.text = "Show"
-        }
-*/
 
     }
 

@@ -15,6 +15,7 @@ import com.aya.sakan.Prefs.PreferencesHelperImp;
 import com.aya.sakan.R;
 import com.aya.sakan.ui.addPost.AddPostActivity;
 import com.aya.sakan.ui.home.adapters.AdapterFrag;
+import com.aya.sakan.ui.profile.ProfileActivity;
 import com.aya.sakan.ui.search.SearchActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
@@ -50,6 +51,13 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(HomeActivity.this, SearchActivity.class));
+            }
+        });
+
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(HomeActivity.this, ProfileActivity.class));
             }
         });
     }

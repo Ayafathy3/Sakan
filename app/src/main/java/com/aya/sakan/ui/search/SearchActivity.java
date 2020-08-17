@@ -28,8 +28,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SearchActivity extends AppCompatActivity {
-    private Toolbar toolbar;
-    private ImageButton profile, logout;
     private TextView title;
 
     @Override
@@ -37,27 +35,13 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        initiViews();
         addFragment(new SearchFragment());
         setListeners();
     }
 
     private void setListeners() {
 
-        profile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-
+        title = findViewById(R.id.title);
         title.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -67,14 +51,6 @@ public class SearchActivity extends AppCompatActivity {
         });
     }
 
-    private void initiViews() {
-        toolbar = findViewById(R.id.tool_bar);
-        profile = findViewById(R.id.profile);
-        logout = findViewById(R.id.logout);
-        title = findViewById(R.id.title);
-
-        toolbar.setNestedScrollingEnabled(false);
-    }
 
     public void addFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();

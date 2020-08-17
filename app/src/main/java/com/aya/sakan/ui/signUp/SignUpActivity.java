@@ -232,7 +232,6 @@ public class SignUpActivity extends AppCompatActivity implements ISignUpPresente
     private int checkValidation(String email, String pass, String confirmPass) {
         int valid = 1;
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-
             emailEditText.setError(getString(R.string.invalid_email));
             emailEditText.setFocusable(true);
             valid = 0;

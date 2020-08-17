@@ -32,7 +32,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     private List<Post> arrayList;
     private Context context;
+    private String userId;
 
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     public PostAdapter(List<Post> arrayList) {
         this.arrayList = arrayList;
@@ -53,14 +57,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         final Post post = arrayList.get(position);
 
         holder.title.setText(post.getTitle());
-        holder.bathroomNum.setText(post.getBathroomsNum()+" حمام ");
-        holder.area.setText(post.getArea()+" m² ");
+        holder.bathroomNum.setText(post.getBathroomsNum() + " حمام ");
+        holder.area.setText(post.getArea() + " m² ");
         holder.roomsNum.setText(post.getRoomsNum() + " غرف ");
         holder.price.setText(post.getPrice() + " EGP ");
 
         //date
         long millisecond = post.getDate().getTime();
-        String dateString = DateFormat.format("MM/dd/yyyy", new Date(millisecond)).toString();
+        String dateString = DateFormat.format("dd/MM/yyyy", new Date(millisecond)).toString();
         holder.date.setText(dateString);
 
         //post image
@@ -80,13 +84,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         holder.userImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent userInformation = new Intent(context, ProfileActivity.class);
 
-                SharedPreferences shared = context.getSharedPreferences("ID", context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = shared.edit();
-                editor.putString("USER_ID", post.getUserId());
-                editor.apply();
-                context.startActivity(userInformation);
+                if (userId == null) {
+                    Intent intent = new Intent(context, ProfileActivity.class);
+                    intent.putExtra("userId", post.getUserId());
+                    context.startActivity(intent);
+                }
             }
         });
 

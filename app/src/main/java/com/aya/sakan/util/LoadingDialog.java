@@ -6,7 +6,6 @@ import android.view.Window;
 
 import com.aya.sakan.R;
 
-
 public class LoadingDialog {
     private static android.app.Dialog mDialog;
 
