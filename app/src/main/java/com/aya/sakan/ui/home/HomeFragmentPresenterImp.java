@@ -36,6 +36,7 @@ public class HomeFragmentPresenterImp implements IHomePresenterContract.Presente
     private List<Post> postList;
     private Boolean isFirstPageFirstLoad = true;
     private String userName, userImage;
+    private int uploads = 0;
 
 
     public HomeFragmentPresenterImp(IHomePresenterContract.View mView, Context context) {
@@ -81,11 +82,11 @@ public class HomeFragmentPresenterImp implements IHomePresenterContract.Presente
 
                                 Post post = new Post(timestamp, images_url, area, desc, roomsNum, bathroomNum, location,
                                         price, userId, home_type, contractType, town, city);
-                                loadUserData(post, "first");
+                                loadUserData(post, "first", documentSnapshots.getDocumentChanges().size());
 
                             }
                         }
-                    }else {
+                    } else {
                         mView.showPost(null);
                     }
                 } else {
@@ -127,7 +128,7 @@ public class HomeFragmentPresenterImp implements IHomePresenterContract.Presente
 
                                 Post post = new Post(timestamp, images_url, area, desc, roomsNum, bathroomNum, location,
                                         price, userId, home_type, contractType, town, city);
-                                loadUserData(post, "more");
+                                loadUserData(post, "more", documentSnapshots.getDocumentChanges().size());
                             }
                         }
                     }
@@ -139,7 +140,7 @@ public class HomeFragmentPresenterImp implements IHomePresenterContract.Presente
 
     }
 
-    public void loadUserData(final Post post, final String isFirsTime) {
+    public void loadUserData(final Post post, final String isFirsTime, final int size) {
 
         firebaseFirestore.collection("Users").document(post.getUserId()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -154,13 +155,17 @@ public class HomeFragmentPresenterImp implements IHomePresenterContract.Presente
                     post.setUserName(userName);
 
                     if (isFirsTime.equals("first")) {
+                        uploads++;
                         if (isFirstPageFirstLoad) {
                             postList.add(post);
                         } else {
                             postList.add(0, post);
                         }
-                        isFirstPageFirstLoad = false;
-                        mView.showPost(postList);
+
+                        if (uploads == size) {
+                            isFirstPageFirstLoad = false;
+                            mView.showPost(postList);
+                        }
                     } else {
                         mView.getMorePost(post);
                     }

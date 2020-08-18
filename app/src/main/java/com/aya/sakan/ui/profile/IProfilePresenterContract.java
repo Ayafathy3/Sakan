@@ -21,5 +21,9 @@ public interface IProfilePresenterContract {
         void getPosts(String userId);
 
         void loadUserData(String userId);
+
+        void updateUserName(String userName,String userId);
+
+        void updateUserImg(String userImg,String userId);
     }
 }

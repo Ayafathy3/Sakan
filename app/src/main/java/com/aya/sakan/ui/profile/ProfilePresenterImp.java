@@ -2,6 +2,7 @@ package com.aya.sakan.ui.profile;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -9,6 +10,7 @@ import com.aya.sakan.ui.home.IHomePresenterContract;
 import com.aya.sakan.ui.home.adapters.Post;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentChange;
@@ -21,6 +23,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 public class ProfilePresenterImp implements IProfilePresenterContract.Presenter {
@@ -34,6 +37,7 @@ public class ProfilePresenterImp implements IProfilePresenterContract.Presenter 
     private List<Post> postList;
     private Boolean isFirstPageFirstLoad = true;
     private String userName, userImage;
+    private int uploads = 0;
 
 
     public ProfilePresenterImp(IProfilePresenterContract.View mView, Context context) {
@@ -80,7 +84,7 @@ public class ProfilePresenterImp implements IProfilePresenterContract.Presenter 
 
                                 Post post = new Post(timestamp, images_url, area, desc, roomsNum, bathroomNum, location,
                                         price, userId, home_type, contractType, town, city);
-                                loadUserData(post, "first");
+                                loadUserData(post, "first", documentSnapshots.getDocumentChanges().size());
 
                             }
                         }
@@ -126,7 +130,7 @@ public class ProfilePresenterImp implements IProfilePresenterContract.Presenter 
 
                                 Post post = new Post(timestamp, images_url, area, desc, roomsNum, bathroomNum, location,
                                         price, userId, home_type, contractType, town, city);
-                                loadUserData(post, "more");
+                                loadUserData(post, "more", documentSnapshots.getDocumentChanges().size());
                             }
                         }
                     }
@@ -138,8 +142,7 @@ public class ProfilePresenterImp implements IProfilePresenterContract.Presenter 
 
     }
 
-    public void loadUserData(final Post post, final String isFirsTime) {
-
+    public void loadUserData(final Post post, final String isFirsTime, final int size) {
         firebaseFirestore.collection("Users").document(post.getUserId()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(Task<DocumentSnapshot> task) {
@@ -153,13 +156,17 @@ public class ProfilePresenterImp implements IProfilePresenterContract.Presenter 
                     post.setUserName(userName);
 
                     if (isFirsTime.equals("first")) {
+                        uploads++;
                         if (isFirstPageFirstLoad) {
                             postList.add(post);
                         } else {
                             postList.add(0, post);
                         }
-                        isFirstPageFirstLoad = false;
-                        mView.showPost(postList, userImage, userName);
+
+                        if (uploads == size) {
+                            isFirstPageFirstLoad = false;
+                            mView.showPost(postList, userImage, userName);
+                        }
                     } else {
                         mView.showMorePost(post);
                     }
@@ -200,6 +207,54 @@ public class ProfilePresenterImp implements IProfilePresenterContract.Presenter 
             @Override
             public void onFailure(@NonNull Exception e) {
                 Log.i(TAG, "get user data failed: " + e.getMessage());
+            }
+        });
+    }
+
+    @Override
+    public void updateUserName(final String userName, String userId) {
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("name", userName);
+
+        firebaseFirestore
+                .collection("Users")
+                .document(userId)
+                .update(hashMap)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.i(TAG, "updateUserName successful");
+                        Toast.makeText(context, "your data updated successful", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.i(TAG, "updateUserName failed");
+                Toast.makeText(context, "Failed to update your data", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @Override
+    public void updateUserImg(String userImg, String userId) {
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("image", userImg);
+
+        firebaseFirestore
+                .collection("Users")
+                .document(userId)
+                .update(hashMap)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.i(TAG, "updateUserImg successful");
+                        Toast.makeText(context, "your data updated successful", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.i(TAG, "updateUserImg failed");
+                Toast.makeText(context, "Failed to update your data", Toast.LENGTH_SHORT).show();
             }
         });
     }

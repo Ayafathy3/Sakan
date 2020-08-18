@@ -146,6 +146,7 @@ public class SignUpPresenterImp implements ISignUpPresenterContract.Presenter {
         userMap.put("name", rentedName);
         userMap.put("phone", phone);
         userMap.put("account_type", accountType);
+        userMap.put("image", null);
 
 
         firebaseFirestore.collection("Users").document(user_id).set(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
