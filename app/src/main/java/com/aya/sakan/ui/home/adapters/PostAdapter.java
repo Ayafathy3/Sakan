@@ -3,6 +3,7 @@ package com.aya.sakan.ui.home.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.aya.sakan.R;
+import com.aya.sakan.ui.postDetails.PostDetailsActivity;
 import com.aya.sakan.ui.profile.ProfileActivity;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -93,6 +95,17 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             }
         });
 
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, PostDetailsActivity.class);
+
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("post", post);
+                intent.putExtras(bundle);
+                context.startActivity(intent);
+            }
+        });
     }
 
 

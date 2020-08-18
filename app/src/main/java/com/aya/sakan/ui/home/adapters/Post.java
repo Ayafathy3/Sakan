@@ -4,10 +4,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Post  {
+public class Post implements Serializable {
     public Date timestamp;
     ArrayList<String> images_url;
-    private String area, desc, roomsNum, bathroomNum, location, userId, userName, userImg,
+    private String area, desc, roomsNum, bathroomNum, location, userId, userName, userImg, phone,
             home_type, contractType, town, city;
     private Long price;
 
@@ -85,10 +85,6 @@ public class Post  {
         return timestamp;
     }
 
-    public ArrayList<String> getImages_url() {
-        return images_url;
-    }
-
     public String getDesc() {
         return desc;
     }
@@ -119,5 +115,13 @@ public class Post  {
 
     public String getCity() {
         return city;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }

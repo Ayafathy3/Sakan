@@ -35,7 +35,7 @@ public class HomeFragmentPresenterImp implements IHomePresenterContract.Presente
     private DocumentSnapshot lastVisible;
     private List<Post> postList;
     private Boolean isFirstPageFirstLoad = true;
-    private String userName, userImage;
+    private String userName, userImage, phone;
     private int uploads = 0;
 
 
@@ -150,9 +150,11 @@ public class HomeFragmentPresenterImp implements IHomePresenterContract.Presente
 
                     userName = task.getResult().getString("name");
                     userImage = task.getResult().getString("image");
+                    phone = task.getResult().getString("phone");
 
                     post.setUerImg(userImage);
                     post.setUserName(userName);
+                    post.setPhone(phone);
 
                     if (isFirsTime.equals("first")) {
                         uploads++;

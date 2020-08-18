@@ -4,37 +4,100 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#90F6F5F5">
+    android:background="#90F6F5F5"
+    tools:context=".ui.postDetails.PostDetailsActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tool_bar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/verdigris"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/_14sdp"
+            android:layout_marginEnd="@dimen/_14sdp"
+            android:weightSum="1">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center_vertical"
+                android:layout_weight=".6"
+                android:fontFamily="@font/font3"
+                android:text="@string/app_name"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_20sdp" />
+
+            <ImageButton
+                android:id="@+id/profile"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_18sdp"
+                android:layout_gravity="center_vertical"
+                android:layout_weight=".15"
+                android:background="@android:color/transparent"
+                android:scaleType="fitCenter"
+                android:src="@drawable/user" />
+
+            <ImageButton
+                android:id="@+id/search"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_18sdp"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="0.15"
+                android:background="@android:color/transparent"
+                android:scaleType="center"
+                android:src="@drawable/ic_search" />
+
+            <ImageButton
+                android:id="@+id/logout"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="0.1"
+                android:background="@android:color/transparent"
+                android:scaleType="fitCenter"
+                android:src="@drawable/icon" />
+        </LinearLayout>
+    </androidx.appcompat.widget.Toolbar>
 
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".MainActivity">
-
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:orientation="vertical"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toTopOf="@id/calls"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tool_bar"
+        tools:context=".ui.postDetails.PostDetailsActivity">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/_12sdp"
+            android:scrollbars="vertical">
 
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/tool_bar"
+            <ss.com.bannerslider.Slider
+                android:id="@+id/recycler_slider"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="@color/verdigris"
+                android:layout_height="@dimen/_180sdp"
+                android:paddingStart="@dimen/_12sdp"
+                android:paddingEnd="@dimen/_12sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <androidx.viewpager.widget.ViewPager
-                android:id="@+id/viewpager_id"
-                android:layout_width="match_parent"
-                android:layout_height="220dp"
-                app:layout_constraintTop_toBottomOf="@+id/tool_bar"
-                tools:ignore="MissingConstraints"
-                tools:layout_editor_absoluteX="-26dp"
-                tools:layout_editor_absoluteY="0dp" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:slider_defaultBanner="1"
+                app:slider_loopSlides="true" />
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/post_user_image"
@@ -45,7 +108,7 @@
                 android:layout_marginTop="8dp"
                 android:src="@drawable/profile_placeholder"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/viewpager_id" />
+                app:layout_constraintTop_toBottomOf="@+id/recycler_slider" />
 
             <TextView
                 android:id="@+id/post_user_name"
@@ -58,7 +121,7 @@
                 android:textSize="@dimen/_14ssp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/post_user_image"
-                app:layout_constraintTop_toBottomOf="@+id/viewpager_id" />
+                app:layout_constraintTop_toBottomOf="@+id/recycler_slider" />
 
             <TextView
                 android:id="@+id/post_date"
@@ -80,7 +143,7 @@
                 android:fontFamily="@font/cairo_bold"
                 android:text="10000 EGP"
                 android:textColor="@color/red"
-                android:textSize="@dimen/_16ssp"
+                android:textSize="@dimen/_17ssp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/post_user_image" />
 
@@ -89,6 +152,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
+                android:layout_marginTop="@dimen/_12sdp"
                 android:layout_marginEnd="12dp"
                 android:fontFamily="@font/cairo_bold"
                 android:text=" للايجار - شقة"
@@ -107,7 +171,7 @@
                 android:layout_marginEnd="12dp"
                 android:text=" القاهرة - الحي السابع - شارع 5 - بلوك 9 - الدور التالت"
                 android:textColor="@color/davygrey"
-                android:textSize="15sp"
+                android:textSize="@dimen/_16ssp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/post_title" />
@@ -117,10 +181,12 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
+                android:layout_marginTop="@dimen/_12sdp"
                 android:layout_marginEnd="12dp"
                 android:text=" المواصفـــــات"
                 android:textColor="@color/davygrey"
-                android:textSize="20sp"
+                android:textSize="@dimen/_16ssp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/post_address" />
@@ -141,11 +207,10 @@
 
             <ImageView
                 android:id="@+id/rooms_num_img"
-                android:layout_width="70dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="6dp"
-                android:layout_marginEnd="12dp"
-                android:layout_marginRight="12dp"
+                android:layout_width="@dimen/_60sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_marginTop="@dimen/_6sdp"
+                android:layout_marginEnd="@dimen/_12sdp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/room"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -153,22 +218,22 @@
 
             <TextView
                 android:id="@+id/rooms_num_text"
-                android:layout_width="50dp"
+                android:layout_width="@dimen/_50sdp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="12dp"
-                android:layout_marginRight="12dp"
+                android:layout_marginEnd="@dimen/_12sdp"
+                android:fontFamily="@font/jazeera_arabic_bold"
                 android:gravity="center"
                 android:text="3 غرف"
                 android:textColor="@color/davygrey"
-                android:textSize="15sp"
+                android:textSize="@dimen/_14ssp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/rooms_num_img" />
 
             <ImageView
                 android:id="@+id/bathroom_num_img"
-                android:layout_width="70dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="6dp"
+                android:layout_width="@dimen/_60sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_marginTop="@dimen/_6sdp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/bath"
                 app:layout_constraintEnd_toStartOf="@id/rooms_num_img"
@@ -176,20 +241,21 @@
 
             <TextView
                 android:id="@+id/bathroom_num_text"
-                android:layout_width="50dp"
+                android:layout_width="@dimen/_50sdp"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/jazeera_arabic_bold"
                 android:gravity="center"
                 android:text="2 حمام"
                 android:textColor="@color/davygrey"
-                android:textSize="15sp"
+                android:textSize="@dimen/_14ssp"
                 app:layout_constraintEnd_toStartOf="@id/rooms_num_img"
                 app:layout_constraintTop_toBottomOf="@id/rooms_num_img" />
 
             <ImageView
                 android:id="@+id/area_img"
-                android:layout_width="70dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="6dp"
+                android:layout_width="@dimen/_60sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_marginTop="@dimen/_6sdp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/home_area"
                 app:layout_constraintEnd_toStartOf="@id/bathroom_num_img"
@@ -197,15 +263,15 @@
 
             <TextView
                 android:id="@+id/area_text"
-                android:layout_width="50dp"
+                android:layout_width="@dimen/_50sdp"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/jazeera_arabic_bold"
                 android:gravity="center"
                 android:text="300 كم"
                 android:textColor="@color/davygrey"
-                android:textSize="15sp"
+                android:textSize="@dimen/_14ssp"
                 app:layout_constraintEnd_toStartOf="@id/bathroom_num_img"
                 app:layout_constraintTop_toBottomOf="@id/rooms_num_img" />
-
 
             <TextView
                 android:id="@+id/post_detaileddiscription"
@@ -216,7 +282,7 @@
                 android:layout_marginEnd="12dp"
                 android:text=" الوصف"
                 android:textColor="@color/davygrey"
-                android:textSize="20sp"
+                android:textSize="@dimen/_16ssp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -237,15 +303,13 @@
                 app:layout_constraintTop_toBottomOf="@+id/post_detaileddiscription" />
 
             <TextView
-                android:id="@+id/post_discription1"
+                android:id="@+id/post_desc"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="@dimen/_8sdp"
                 android:layout_marginEnd="12dp"
-                android:text="بلا بلا بلا بلا بلا بلا ززز الايجار شامل مياه وغاز وكهرباء ...
-                ..................................
-                ................................"
+                android:text="الوصف هنااااااااااااااااااااااااااااااااا"
                 android:textColor="@color/davygrey"
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -256,6 +320,7 @@
     </ScrollView>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/calls"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_50sdp"
         android:background="#FFFFFF"
@@ -271,6 +336,7 @@
             app:layout_constraintGuide_percent="0.5" />
 
         <ImageButton
+            android:id="@+id/phone_call"
             android:layout_width="@dimen/_50sdp"
             android:layout_height="match_parent"
             android:background="@drawable/call_icon"
@@ -279,6 +345,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <ImageButton
+            android:id="@+id/whats_app"
             android:layout_width="@dimen/_40sdp"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/_4sdp"
