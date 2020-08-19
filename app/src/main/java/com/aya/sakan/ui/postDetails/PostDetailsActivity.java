@@ -1,12 +1,16 @@
 package com.aya.sakan.ui.postDetails;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -15,10 +19,20 @@ import android.widget.Toast;
 import com.aya.sakan.R;
 import com.aya.sakan.ui.home.HomeActivity;
 import com.aya.sakan.ui.home.adapters.Post;
+import com.aya.sakan.ui.login.LoginActivity;
 import com.aya.sakan.ui.profile.ProfileActivity;
 import com.aya.sakan.ui.search.SearchActivity;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.facebook.AccessToken;
+import com.facebook.login.LoginManager;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Date;
 
@@ -34,6 +48,7 @@ public class PostDetailsActivity extends AppCompatActivity {
     private Post post;
     private Slider slider;
     private MainSliderAdapter mainSliderAdapter;
+    private static final String TAG = "PostDetailsActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,21 +64,8 @@ public class PostDetailsActivity extends AppCompatActivity {
         phoneCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            /*    Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", "+20" + post.getPhone(), null));
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", "+20" + post.getPhone(), null));
                 startActivity(intent);
-            */
-
-                String url = "https://api.whatsapp.com/send?phone=" + "+20 " + "1065936047";
-                try {
-                    PackageManager pm = PostDetailsActivity.this.getPackageManager();
-                    pm.getPackageInfo("com.whatsapp", PackageManager.GET_ACTIVITIES);
-                    Intent i = new Intent(Intent.ACTION_VIEW);
-                    i.setData(Uri.parse(url));
-                    startActivity(i);
-                } catch (PackageManager.NameNotFoundException e) {
-                    Toast.makeText(PostDetailsActivity.this, "Whatsapp app not installed in your phone", Toast.LENGTH_SHORT).show();
-                    e.printStackTrace();
-                }
             }
         });
 
@@ -88,6 +90,75 @@ public class PostDetailsActivity extends AppCompatActivity {
                 startActivity(new Intent(PostDetailsActivity.this, ProfileActivity.class));
             }
         });
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                logoutAction();
+            }
+        });
+    }
+
+    private void logoutAction() {
+        new AlertDialog.Builder(
+                PostDetailsActivity.this)
+                .setTitle(R.string.confirm_logout)
+                .setMessage(R.string.confirm_logout_msg)
+                .setPositiveButton(R.string.yes,
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                // signed in with google
+                                GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(PostDetailsActivity.this);
+
+                                // signed in with fb
+                                AccessToken accessToken = AccessToken.getCurrentAccessToken();
+                                boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
+
+                                if (isLoggedIn) {
+                                    facebookSignOut();
+                                }
+
+                                if (account != null) {
+                                    googleSignOut();
+                                }
+
+                                FirebaseAuth.getInstance().signOut();
+                                startActivity(new Intent(PostDetailsActivity.this, LoginActivity.class));
+                                finishAffinity();
+                            }
+                        })
+                .setNegativeButton(R.string.no,
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        }).show();
+    }
+
+    private void googleSignOut() {
+        Log.i(TAG, "logout google");
+        GoogleSignInClient mGoogleSignInClient;
+        GoogleSignInOptions googleSignInOptions;
+
+        googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+        mGoogleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
+
+        mGoogleSignInClient.signOut()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        // ...
+                    }
+                });
+    }
+
+    private void facebookSignOut() {
+        Log.i(TAG, "logout fb");
+        LoginManager.getInstance().logOut();
     }
 
     private void startSupportChat() {

@@ -4,11 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FAFAFA"
-    android:layoutDirection="rtl"
-    android:orientation="vertical"
     android:clickable="true"
     android:focusable="true"
-    >
+    android:layoutDirection="rtl"
+    android:orientation="vertical">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -42,10 +41,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10sdp"
             android:fontFamily="@font/cairo_bold"
-            android:text="@string/المحافظة"
+            android:text="@string/town"
             android:textColor="@color/davygrey"
-            android:textSize="@dimen/_12ssp"
-            app:layout_constraintStart_toStartOf="@id/guide_line_start"
+            android:textSize="@dimen/_14ssp"
+            app:layout_constraintEnd_toEndOf="@id/guide_line_end"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.reginald.editspinner.EditSpinner
@@ -76,10 +75,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10sdp"
             android:fontFamily="@font/cairo_bold"
-            android:text="@string/المنطقة"
+            android:text="@string/city"
             android:textColor="@color/davygrey"
-            android:textSize="@dimen/_12ssp"
-            app:layout_constraintStart_toStartOf="@id/guide_line_start"
+            android:textSize="@dimen/_14ssp"
+            app:layout_constraintEnd_toEndOf="@id/guide_line_end"
             app:layout_constraintTop_toBottomOf="@id/town_name_spinner" />
 
         <com.reginald.editspinner.EditSpinner
@@ -111,7 +110,7 @@
             android:layout_marginStart="@dimen/_8sdp"
             android:layout_marginTop="@dimen/_10sdp"
             android:fontFamily="@font/cairo_bold"
-            android:text="@string/العقار"
+            android:text="@string/home_type"
             android:textColor="@color/davygrey"
             android:textSize="@dimen/_12ssp"
             app:layout_constraintEnd_toEndOf="@id/guide_line_end"
@@ -125,7 +124,7 @@
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_8sdp"
             android:fontFamily="@font/cairo_bold"
-            android:text="@string/contract_type_ar"
+            android:text="@string/contract_type"
             android:textColor="@color/davygrey"
             android:textSize="@dimen/_12ssp"
             app:layout_constraintStart_toStartOf="@id/guide_line_start"
@@ -186,7 +185,7 @@
             android:layout_marginStart="@dimen/_8sdp"
             android:layout_marginTop="@dimen/_10sdp"
             android:fontFamily="@font/cairo_bold"
-            android:text="@string/أقل"
+            android:text="@string/less"
             android:textColor="@color/davygrey"
             android:textSize="@dimen/_12ssp"
             app:layout_constraintEnd_toEndOf="@id/guide_line_end"
@@ -200,7 +199,7 @@
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_8sdp"
             android:fontFamily="@font/cairo_bold"
-            android:text="@string/أعلى"
+            android:text="@string/more"
             android:textColor="@color/davygrey"
             android:textSize="@dimen/_12ssp"
             app:layout_constraintEnd_toEndOf="@id/guide_line_center"
@@ -263,7 +262,7 @@
             android:background="@drawable/round_button"
             android:fontFamily="@font/cairo_bold"
             android:gravity="center"
-            android:text="@string/ابحث"
+            android:text="@string/search"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="@dimen/_14ssp"

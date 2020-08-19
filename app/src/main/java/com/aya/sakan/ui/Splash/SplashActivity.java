@@ -4,16 +4,20 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.aya.sakan.Prefs.PreferencesHelperImp;
 import com.aya.sakan.R;
 import com.aya.sakan.ui.home.HomeActivity;
 import com.aya.sakan.ui.login.LoginActivity;
+import com.aya.sakan.ui.postDetails.PostDetailsActivity;
 import com.aya.sakan.ui.start.StartActivity;
+import com.facebook.AccessToken;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.auth.FirebaseAuth;
@@ -21,6 +25,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Locale;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -28,7 +33,6 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        Get_hash_key();
 
         new Thread(new Runnable() {
             @Override
@@ -43,35 +47,20 @@ public class SplashActivity extends AppCompatActivity {
         }).start();
     }
 
-    public void Get_hash_key() {
-        PackageInfo info;
-        try {
-            info = getPackageManager().getPackageInfo("com.aya.sakan", PackageManager.GET_SIGNATURES);
-            for (Signature signature : info.signatures) {
-                MessageDigest md;
-                md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                String something = new String(Base64.encode(md.digest(), 0));
-                //String something = new String(Base64.encodeBytes(md.digest()));
-                Log.e("hash_key", something);
-            }
-        } catch (PackageManager.NameNotFoundException e1) {
-            Log.e("name not found", e1.toString());
-        } catch (NoSuchAlgorithmException e) {
-            Log.e("no such an algorithm", e.toString());
-        } catch (Exception e) {
-            Log.e("exception", e.toString());
-        }
-    }
     private void checkIfUserIsLogged() {
 
         // firebase with email and pass
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         // signed in with google
-        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(SplashActivity.this);
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
 
-        if (currentUser == null && account == null) {
+        // signed in with fb
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
+
+
+        if (currentUser == null && account == null && !isLoggedIn) {
             goToStartActivity();
         } else {
             openHomeActivity();
@@ -86,5 +75,17 @@ public class SplashActivity extends AppCompatActivity {
     private void openHomeActivity() {
         startActivity(new Intent(SplashActivity.this, HomeActivity.class));
         finishAffinity();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        Locale locale = new Locale(PreferencesHelperImp.getInstance().getLanguagePref());
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getResources().updateConfiguration(config, getResources().getDisplayMetrics());
+
     }
 }

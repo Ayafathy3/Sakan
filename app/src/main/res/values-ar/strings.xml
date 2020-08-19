@@ -1,0 +1,55 @@
+<resources>
+    <string name="start">ابدأ</string>
+    <string name="app_name">سكن</string>
+    <string name="login_title">هل لديك حساب بالفعل؟ دخول</string>
+    <string name="account_type_text">اختار نوع الحساب</string>
+    <string name="invalid_email">بريد الكتروني غير صالح</string>
+    <string name="pass_error">كلمة السر يجب ان تكون علي الاقل 6 أحرف</string>
+    <string name="confirm_pass_error">كلمة السر وتأكيد كلمة السر غير متطابقين</string>
+    <string name="recover_pass">استرجاع الباسورد</string>
+    <string name="recover">استرجاع الباسورد</string>
+    <string name="cancel">لا</string>
+    <string name="sign_up">تسجيل حساب جديد</string>
+    <string name="sign_up_rented">Hello rented /n please fill out the form below to get started</string>
+    <string name="sign_up_tenant">Hello tenant /n please fill out the form below to get started</string>
+    <string name="tenant">مستأجر</string>
+    <string name="rented">مؤجر</string>
+    <string name="login_text">تسجيل دخول</string>
+    <string name="add_home_images">اضافة الصور</string>
+    <string name="location">العنوان بالتفصيل</string>
+    <string name="account_type">نوع الحساب</string>
+     <string name="rented_name">اسم المعلن/الشركة</string>
+    <string name="sign_up_by">أو</string>
+    <string name="user_name">اسم المستخدم</string>
+    <string name="phone_number">رقم الموبايل</string>
+    <string name="email">البريد الالكتروني</string>
+    <string name="password">كلمة السر</string>
+    <string name="confirm_password">تأكيد كلمة السر</string>
+    <string name="login_with_facebook">الفيس بوك</string>
+    <string name="login_with_google">جوجل</string>
+    <string name="sign_up_text">ليس لديك حساب؟ تسجيل حساب</string>
+
+    <string name="facebook_app_id">720037558837958</string>
+    <string name="fb_login_protocol_scheme">fb720037558837958</string>
+
+    <string name="town">المحافظة</string>
+    <string name="city">المنطقة</string>
+    <string name="less">أقل سعر</string>
+    <string name="more">أعلى سعر</string>
+    <string name="home_type">نوع العقار</string>
+    <string name="contract_type">نوع العقد</string>
+    <string name="search">ابحث</string>
+
+    <string name="title">العنوان</string>
+    <string name="area">المساحة</string>
+    <string name="price">السعر</string>
+    <string name="rooms_num">عدد الغرف</string>
+    <string name="bathroom_num">عدد الحمامات</string>
+    <string name="upload">نشر</string>
+    <string name="desc">الوصف</string>
+    <string name="yes">نعم</string>
+    <string name="no">لا</string>
+    <string name="forget_pass">هل نسيت كلمة السر؟ استرجاع</string>
+    <string name="confirm_logout">تأكيد تسجيل الخروج</string>
+    <string name="confirm_logout_msg">هل تريد تسجيل الخروج بالفعل؟ </string>
+</resources>

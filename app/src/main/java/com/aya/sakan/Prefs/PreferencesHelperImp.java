@@ -2,6 +2,7 @@ package com.aya.sakan.Prefs;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 public class PreferencesHelperImp implements PreferencesHelper {
 
@@ -39,6 +40,18 @@ public class PreferencesHelperImp implements PreferencesHelper {
         preferences = context.getSharedPreferences(Constant.SharedPreferencesName, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.clear();
+        editor.apply();
+    }
+
+    public String getLanguagePref() {
+        return context.getSharedPreferences(Constant.SharedPreferencesName, Context.MODE_PRIVATE).getString(Constant.LANGUAGE_KEY, "en");
+    }
+
+
+    public void setLanguagePref(String localeKey) {
+        preferences = context.getSharedPreferences(Constant.SharedPreferencesName, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(Constant.LANGUAGE_KEY, localeKey);
         editor.apply();
     }
 }
