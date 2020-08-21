@@ -25,16 +25,4 @@ public class Town {
     public String getTown_ar() {
         return town_ar;
     }
-
-    public void setTown_ar(String town_ar) {
-        this.town_ar = town_ar;
-    }
-
-    public String getTown_en() {
-        return town_en;
-    }
-
-    public void setTown_en(String town_en) {
-        this.town_en = town_en;
-    }
 }

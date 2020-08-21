@@ -45,6 +45,7 @@
     <string name="rooms_num">Rooms Num</string>
     <string name="bathroom_num">Bathroom Num</string>
     <string name="upload">Upload Post</string>
+    <string name="update_post">Update Post</string>
     <string name="desc">Description</string>
     <string name="home_type">Home Type</string>
     <string name="yes">Yes</string>
@@ -52,4 +53,6 @@
     <string name="forget_pass">Forget password? Recovery</string>
     <string name="confirm_logout">Confirm Logout</string>
     <string name="confirm_logout_msg">Are you sure you want to logout ?</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
 </resources>

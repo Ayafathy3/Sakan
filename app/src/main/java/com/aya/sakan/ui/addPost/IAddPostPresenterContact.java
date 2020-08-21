@@ -15,5 +15,8 @@ public interface IAddPostPresenterContact {
                                  String roomsNum, String bathroomNum, String homeType,
                                  String contractType, String town, String city);
 
+        void updatePost(List<String> imageList, String desc, String location, String area, Long price,
+                        String roomsNum, String bathroomNum, String homeType,
+                        String contractType, String town, String city, String postId);
     }
 }

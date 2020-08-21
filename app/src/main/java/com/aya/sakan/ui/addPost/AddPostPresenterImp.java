@@ -125,4 +125,43 @@ public class AddPostPresenterImp implements IAddPostPresenterContact.Presenter {
             }
         });
     }
+
+    @Override
+    public void updatePost(List<String> imageList, String desc, String location, String area, Long price,
+                           String roomsNum, String bathroomNum, String homeType,
+                           String contractType, String town, String city, String postId) {
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        Map<String, Object> postMap = new HashMap<>();
+        postMap.put("userId", userId);
+        postMap.put("home_type", homeType);
+        postMap.put("images_url", imageList);
+        postMap.put("desc", desc);
+        postMap.put("location", location);
+        postMap.put("area", area);
+        postMap.put("price", price);
+        postMap.put("roomsNum", roomsNum);
+        postMap.put("bathroomNum", bathroomNum);
+        postMap.put("town", town);
+        postMap.put("contractType", contractType);
+        postMap.put("city", city);
+        postMap.put("timestamp", FieldValue.serverTimestamp());
+
+        firebaseFirestore = FirebaseFirestore.getInstance();
+        firebaseFirestore.collection("Posts")
+                .document(postId).update(postMap)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.i(TAG, "update post successful");
+                        mView.goToHome("Update Successful");
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.i(TAG, "update post failed" + e.getMessage());
+                mView.goToHome("Failed to update post: " + e.getMessage());
+            }
+        });
+    }
 }

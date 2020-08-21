@@ -27,6 +27,7 @@ import android.widget.Toast;
 import com.aya.sakan.R;
 import com.aya.sakan.ui.addPost.postImages.ImageAdapter;
 import com.aya.sakan.ui.home.HomeActivity;
+import com.aya.sakan.ui.home.adapters.Post;
 import com.aya.sakan.ui.search.SearchActivity;
 import com.aya.sakan.ui.search.Town;
 import com.aya.sakan.util.Data;
@@ -48,8 +49,6 @@ public class AddPostActivity extends AppCompatActivity implements IAddPostPresen
             priceEditText;
     private CircleImageView addImages;
     private Button uploadPost;
-    private int PICK_IMAGE_MULTIPLE = 0;
-    private static final String TAG = "AddPostActivity";
     private ArrayList<Uri> mArrayUri;
     private AddPostPresenterImp addPostPresenterImp;
     private ImageAdapter imageAdapter;
@@ -62,6 +61,11 @@ public class AddPostActivity extends AppCompatActivity implements IAddPostPresen
     private String townString, cityString, homeTypeString,
             contractTypeString, roomsNumString, bathroomNumString;
 
+    private ArrayAdapter<String> townAdapter, homeTypesAdapter, roomsNumAdapter, bathroomNumAdapter,
+            contractTypeAdapter, cityAdapter;
+
+    private Post post;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,8 +73,71 @@ public class AddPostActivity extends AppCompatActivity implements IAddPostPresen
 
         intiViews();
         setUpSpinners();
-        createInstance();
+        getData();
         setListeners();
+    }
+
+    private void getData() {
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+
+        if (bundle != null) {
+            post = (Post) bundle.getSerializable("post");
+            uploadPost.setText(R.string.update_post);
+
+            //edit text
+            locationEditText.setText(post.getLocation());
+            titleEditText.setText(post.getTitle());
+            areaEditText.setText(post.getArea());
+            priceEditText.setText(String.valueOf(post.getPrice()));
+
+            //edit spinners
+
+            homeTypeString = post.getHome_type();
+            contractTypeString = post.getContractType();
+            roomsNumString = post.getRoomsNum();
+            bathroomNumString = post.getBathroomNum();
+            townString = post.getTown();
+            cityString = post.getCity();
+
+            homeTypeEditSpinner.selectItem(homeTypesAdapter.getPosition(post.getHome_type()));
+            contractTypeEditSpinner.selectItem(contractTypeAdapter.getPosition(post.getContractType()));
+            roomsNumEditSpinner.selectItem(roomsNumAdapter.getPosition(post.getRoomsNum()));
+            bathroomNumEditSpinner.selectItem(bathroomNumAdapter.getPosition(post.getBathroomNum()));
+
+            townId = townAdapter.getPosition(post.getTown());
+            townEditSpinner.selectItem(townId);
+
+
+            //city
+            Town town = Data.getTowns().get(townId);
+            townId = town.getId();
+            List<String> cityList = new ArrayList<>();
+            for (int j = 0; j < Data.getCities(townId).size(); j++) {
+                cityList.add(Data.getCities(townId).get(j).getTown_ar());
+            }
+            cityAdapter = new ArrayAdapter<>(AddPostActivity.this, android.R.layout.simple_spinner_dropdown_item, cityList);
+            cityEditSpinner.setAdapter(cityAdapter);
+
+            cityEditSpinner.selectItem(cityAdapter.getPosition(post.getCity()));
+
+            // images
+            StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(1, LinearLayoutManager.HORIZONTAL);
+            recyclerViewImages.setLayoutManager(staggeredGridLayoutManager); // set LayoutManager to RecyclerView
+
+            mArrayUri = new ArrayList<>();
+            for (int i = 0; i < post.getImagesURL().size(); i++) {
+                mArrayUri.add(Uri.parse(post.getImagesURL().get(i)));
+            }
+            imageAdapter = new ImageAdapter(mArrayUri, AddPostActivity.this, addImages, recyclerViewImages);
+            recyclerViewImages.setAdapter(imageAdapter);
+            recyclerViewImages.setVisibility(View.VISIBLE);
+            addImages.setVisibility(View.GONE);
+
+        } else {
+            uploadPost.setText(R.string.upload);
+            mArrayUri = new ArrayList<>();
+        }
     }
 
     private void setUpSpinners() {
@@ -79,15 +146,15 @@ public class AddPostActivity extends AppCompatActivity implements IAddPostPresen
         for (int i = 0; i < Data.getTowns().size(); i++) {
             townList.add(Data.getTowns().get(i).getTown_ar());
         }
-        ArrayAdapter<String> townAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, townList);
+        townAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, townList);
         townEditSpinner.setAdapter(townAdapter);
 
         //homeType (فيلا .. شاليه .. منزل)
-        ArrayAdapter<String> homeTypesAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, Data.getHomeTypes());
+        homeTypesAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, Data.getHomeTypes());
         homeTypeEditSpinner.setAdapter(homeTypesAdapter);
 
         // contract type
-        ArrayAdapter<String> contractTypeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, Data.getContractType());
+        contractTypeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, Data.getContractType());
         contractTypeEditSpinner.setAdapter(contractTypeAdapter);
 
         // rooms Number and bathroom num
@@ -97,16 +164,12 @@ public class AddPostActivity extends AppCompatActivity implements IAddPostPresen
             roomsNumList.add(String.valueOf(i));
             bathroomNumList.add(String.valueOf(i));
         }
-        ArrayAdapter<String> roomsNumAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, roomsNumList);
+        roomsNumAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, roomsNumList);
         roomsNumEditSpinner.setAdapter(roomsNumAdapter);
 
-        ArrayAdapter<String> bathroomNumAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, bathroomNumList);
+        bathroomNumAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, bathroomNumList);
         bathroomNumEditSpinner.setAdapter(bathroomNumAdapter);
 
-    }
-
-    private void createInstance() {
-        mArrayUri = new ArrayList<>();
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -124,6 +187,7 @@ public class AddPostActivity extends AppCompatActivity implements IAddPostPresen
         uploadPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 uploadPostAction();
             }
         });
@@ -143,7 +207,7 @@ public class AddPostActivity extends AppCompatActivity implements IAddPostPresen
                 }
 
 
-                ArrayAdapter<String> cityAdapter = new ArrayAdapter<>(AddPostActivity.this, android.R.layout.simple_spinner_dropdown_item, cityList);
+                cityAdapter = new ArrayAdapter<>(AddPostActivity.this, android.R.layout.simple_spinner_dropdown_item, cityList);
                 cityEditSpinner.setAdapter(cityAdapter);
             }
         });
@@ -213,15 +277,30 @@ public class AddPostActivity extends AppCompatActivity implements IAddPostPresen
         if (mArrayUri.size() == 0) {
             Toast.makeText(AddPostActivity.this, "Please add images first", Toast.LENGTH_SHORT).show();
         } else if (location.isEmpty() || price.isEmpty() || area.isEmpty() || desc.isEmpty()
-                || townString.isEmpty() || cityString.isEmpty() || contractTypeString.isEmpty() || homeTypeString.isEmpty()
-                || roomsNumString.isEmpty() || bathroomNumString.isEmpty()) {
+                || townString == null || cityString == null || contractTypeString == null || homeTypeString == null
+                || roomsNumString == null || bathroomNumString == null) {
             Toast.makeText(AddPostActivity.this, "Please fill this data first", Toast.LENGTH_SHORT).show();
         } else {
             LoadingDialog.showProgress(this);
             addPostPresenterImp = new AddPostPresenterImp(this, AddPostActivity.this);
-            addPostPresenterImp.uploadPostAndImages(mArrayUri, desc, location, area, Long.valueOf(price),
-                    roomsNumString, bathroomNumString,
-                    homeTypeString, contractTypeString, townString, cityString);
+
+            Intent intent = getIntent();
+            Bundle bundle = intent.getExtras();
+
+            if (bundle != null) {
+
+                List<String> imagesList = new ArrayList<>();
+                for (int i = 0; i < mArrayUri.size(); i++) {
+                    imagesList.add(String.valueOf(mArrayUri.get(i)));
+                }
+                addPostPresenterImp.updatePost(imagesList, desc, location, area, Long.valueOf(price),
+                        roomsNumString, bathroomNumString,
+                        homeTypeString, contractTypeString, townString, cityString, post.getPostId());
+            } else {
+                addPostPresenterImp.uploadPostAndImages(mArrayUri, desc, location, area, Long.valueOf(price),
+                        roomsNumString, bathroomNumString,
+                        homeTypeString, contractTypeString, townString, cityString);
+            }
         }
     }
 
@@ -274,7 +353,7 @@ public class AddPostActivity extends AppCompatActivity implements IAddPostPresen
     public void goToHome(String message) {
         LoadingDialog.hideProgress();
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-        if (message.equals("Upload Successful")) {
+        if (message.equals("Upload Successful") || message.equals("Update Successful")) {
             startActivity(new Intent(AddPostActivity.this, HomeActivity.class));
             finish();
         }

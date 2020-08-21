@@ -69,6 +69,7 @@ public class ProfilePresenterImp implements IProfilePresenterContract.Presenter 
 
                             if (doc.getType() == DocumentChange.Type.ADDED) {
 
+                                String postId = doc.getDocument().getId();
                                 String area = doc.getDocument().getString("area");
                                 String desc = doc.getDocument().getString("desc");
                                 String roomsNum = doc.getDocument().getString("roomsNum");
@@ -83,7 +84,7 @@ public class ProfilePresenterImp implements IProfilePresenterContract.Presenter 
                                 ArrayList<String> images_url = (ArrayList<String>) doc.getDocument().get("images_url");
 
                                 Post post = new Post(timestamp, images_url, area, desc, roomsNum, bathroomNum, location,
-                                        price, userId, home_type, contractType, town, city);
+                                        price, userId, home_type, contractType, town, city,postId);
                                 loadUserData(post, "first", documentSnapshots.getDocumentChanges().size());
 
                             }
@@ -115,6 +116,7 @@ public class ProfilePresenterImp implements IProfilePresenterContract.Presenter 
                         for (DocumentChange doc : documentSnapshots.getDocumentChanges()) {
                             if (doc.getType() == DocumentChange.Type.ADDED) {
 
+                                String postId = doc.getDocument().getId();
                                 String area = doc.getDocument().getString("area");
                                 String desc = doc.getDocument().getString("desc");
                                 String roomsNum = doc.getDocument().getString("roomsNum");
@@ -129,7 +131,7 @@ public class ProfilePresenterImp implements IProfilePresenterContract.Presenter 
                                 ArrayList<String> images_url = (ArrayList<String>) doc.getDocument().get("images_url");
 
                                 Post post = new Post(timestamp, images_url, area, desc, roomsNum, bathroomNum, location,
-                                        price, userId, home_type, contractType, town, city);
+                                        price, userId, home_type, contractType, town, city,postId);
                                 loadUserData(post, "more", documentSnapshots.getDocumentChanges().size());
                             }
                         }

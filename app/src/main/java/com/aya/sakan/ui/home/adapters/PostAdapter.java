@@ -7,14 +7,19 @@ import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.widget.PopupMenu;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.aya.sakan.R;
+import com.aya.sakan.ui.addPost.AddPostActivity;
+import com.aya.sakan.ui.home.HomeFragmentPresenterImp;
 import com.aya.sakan.ui.postDetails.PostDetailsActivity;
 import com.aya.sakan.ui.profile.ProfileActivity;
 import com.bumptech.glide.Glide;
@@ -95,17 +100,70 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             }
         });
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.homeImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, PostDetailsActivity.class);
-
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("post", post);
-                intent.putExtras(bundle);
-                context.startActivity(intent);
+                openPostDetailsActivity(post);
             }
         });
+
+        holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openPostDetailsActivity(post);
+            }
+        });
+
+        holder.buttonViewOption.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                createMenu(holder, post);
+            }
+        });
+    }
+
+    private void openPostDetailsActivity(Post post) {
+        Intent intent = new Intent(context, PostDetailsActivity.class);
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("post", post);
+        intent.putExtras(bundle);
+        context.startActivity(intent);
+
+    }
+
+    private void openAddPostActivity(Post post) {
+        Intent intent = new Intent(context, AddPostActivity.class);
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("post", post);
+        intent.putExtras(bundle);
+        context.startActivity(intent);
+    }
+
+    private void createMenu(ViewHolder holder, Post post) {
+        PopupMenu popup = new PopupMenu(context, holder.buttonViewOption);
+        //inflating menu from xml resource
+        popup.inflate(R.menu.options_menu);
+        //adding click listener
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.edit:
+                        openAddPostActivity(post);
+                        break;
+                    case R.id.delete:
+                        new HomeFragmentPresenterImp(context).deletePost(post.getPostId());
+                        arrayList.remove(holder.getAdapterPosition());
+                        notifyDataSetChanged();
+                        break;
+                }
+                return false;
+            }
+        });
+        //displaying the popup
+        popup.show();
     }
 
 
@@ -118,6 +176,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         private ImageView homeImage;
         private TextView userName, date, price, title, roomsNum, bathroomNum, area;
         private CircleImageView userImage;
+        public TextView buttonViewOption;
+        private ConstraintLayout constraintLayout;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -134,6 +194,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             roomsNum = itemView.findViewById(R.id.rooms_num_text);
             bathroomNum = itemView.findViewById(R.id.bathroom_num_text);
             area = itemView.findViewById(R.id.area_text);
+            buttonViewOption = itemView.findViewById(R.id.textViewOptions);
+            constraintLayout = itemView.findViewById(R.id.item_constraint);
         }
 
         public void setHomeImage(String downloadUri) {

@@ -10,6 +10,7 @@ public class Post implements Serializable {
     private String area, desc, roomsNum, bathroomNum, location, userId, userName, userImg, phone,
             home_type, contractType, town, city;
     private Long price;
+    private String postId;
 
     public Post() {
     }
@@ -17,7 +18,7 @@ public class Post implements Serializable {
     public Post(Date timestamp, ArrayList<String> images_url, String area, String desc,
                 String roomsNum, String bathroomNum, String location, Long price,
                 String userId, String home_type,
-                String contractType, String town, String city) {
+                String contractType, String town, String city, String postId) {
         this.timestamp = timestamp;
         this.images_url = images_url;
         this.area = area;
@@ -31,6 +32,7 @@ public class Post implements Serializable {
         this.contractType = contractType;
         this.town = town;
         this.city = city;
+        this.postId = postId;
     }
 
     public String getUserName() {
@@ -123,5 +125,13 @@ public class Post implements Serializable {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public void setPostId(String postId) {
+        this.postId = postId;
+    }
+
+    public String getPostId() {
+        return postId;
     }
 }

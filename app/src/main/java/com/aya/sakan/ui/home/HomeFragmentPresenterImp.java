@@ -3,6 +3,7 @@ package com.aya.sakan.ui.home;
 import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -10,6 +11,7 @@ import com.aya.sakan.ui.home.IHomePresenterContract;
 import com.aya.sakan.ui.home.adapters.Post;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -38,6 +40,10 @@ public class HomeFragmentPresenterImp implements IHomePresenterContract.Presente
     private String userName, userImage, phone;
     private int uploads = 0;
 
+    public HomeFragmentPresenterImp(Context context) {
+        this.context = context;
+        firebaseFirestore = FirebaseFirestore.getInstance();
+    }
 
     public HomeFragmentPresenterImp(IHomePresenterContract.View mView, Context context) {
         this.mView = mView;
@@ -66,6 +72,7 @@ public class HomeFragmentPresenterImp implements IHomePresenterContract.Presente
 
                             if (doc.getType() == DocumentChange.Type.ADDED) {
 
+                                String postId = doc.getDocument().getId();
                                 String area = doc.getDocument().getString("area");
                                 String desc = doc.getDocument().getString("desc");
                                 String roomsNum = doc.getDocument().getString("roomsNum");
@@ -81,7 +88,7 @@ public class HomeFragmentPresenterImp implements IHomePresenterContract.Presente
                                 ArrayList<String> images_url = (ArrayList<String>) doc.getDocument().get("images_url");
 
                                 Post post = new Post(timestamp, images_url, area, desc, roomsNum, bathroomNum, location,
-                                        price, userId, home_type, contractType, town, city);
+                                        price, userId, home_type, contractType, town, city, postId);
                                 loadUserData(post, "first", documentSnapshots.getDocumentChanges().size());
 
                             }
@@ -112,6 +119,7 @@ public class HomeFragmentPresenterImp implements IHomePresenterContract.Presente
                         for (DocumentChange doc : documentSnapshots.getDocumentChanges()) {
                             if (doc.getType() == DocumentChange.Type.ADDED) {
 
+                                String postId = doc.getDocument().getId();
                                 String area = doc.getDocument().getString("area");
                                 String desc = doc.getDocument().getString("desc");
                                 String roomsNum = doc.getDocument().getString("roomsNum");
@@ -127,7 +135,7 @@ public class HomeFragmentPresenterImp implements IHomePresenterContract.Presente
                                 ArrayList<String> images_url = (ArrayList<String>) doc.getDocument().get("images_url");
 
                                 Post post = new Post(timestamp, images_url, area, desc, roomsNum, bathroomNum, location,
-                                        price, userId, home_type, contractType, town, city);
+                                        price, userId, home_type, contractType, town, city, postId);
                                 loadUserData(post, "more", documentSnapshots.getDocumentChanges().size());
                             }
                         }
@@ -184,5 +192,23 @@ public class HomeFragmentPresenterImp implements IHomePresenterContract.Presente
             }
         });
 
+    }
+
+    public void deletePost(String postId) {
+        firebaseFirestore.collection("Posts").document(postId).delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                        Toast.makeText(context, "Post deleted successfully", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error deleting document", e);
+                        Toast.makeText(context, "Failed to delete this post", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }
