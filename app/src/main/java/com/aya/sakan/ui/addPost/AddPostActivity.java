@@ -11,6 +11,7 @@ import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -30,8 +31,12 @@ import com.aya.sakan.ui.search.SearchActivity;
 import com.aya.sakan.ui.search.Town;
 import com.aya.sakan.util.Data;
 import com.aya.sakan.util.LoadingDialog;
+import com.esafirm.imagepicker.features.ImagePicker;
+import com.esafirm.imagepicker.features.ReturnMode;
+import com.esafirm.imagepicker.model.Image;
 import com.reginald.editspinner.EditSpinner;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -110,7 +115,9 @@ public class AddPostActivity extends AppCompatActivity implements IAddPostPresen
         addImages.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getImagesFromGallery();
+                ImagePicker.create(AddPostActivity.this)
+                        .theme(R.style.ImagePickerTheme)
+                        .limit(10).start();
             }
         });
 
@@ -218,21 +225,6 @@ public class AddPostActivity extends AppCompatActivity implements IAddPostPresen
         }
     }
 
-    private void getImagesFromGallery() {
-        if (ActivityCompat.checkSelfPermission(AddPostActivity.this, Manifest.permission
-                .READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(AddPostActivity.this,
-                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 100);
-            return;
-        }
-
-        Intent galleryIntent = new Intent();
-        galleryIntent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-        galleryIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-        galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(galleryIntent, "Select Picture"), PICK_IMAGE_MULTIPLE);
-    }
-
     private void intiViews() {
         recyclerViewImages = findViewById(R.id.recycler_images);
         locationEditText = findViewById(R.id.location_edit);
@@ -254,24 +246,17 @@ public class AddPostActivity extends AppCompatActivity implements IAddPostPresen
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (requestCode == PICK_IMAGE_MULTIPLE && resultCode == RESULT_OK) {
+        if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {
+            // Get a list of picked images
+            List<Image> images = ImagePicker.getImages(data);
+            // or get a single image only
+            //Image image = ImagePicker.getFirstImageOrNull(data);
 
-            //If Single image selected then it will fetch from Gallery
-            if (data.getData() != null) {
-                android.net.Uri mImageUri = data.getData();
-                mArrayUri.add(mImageUri);
-                Log.i(TAG, " Select one image: " + mImageUri.toString());
-            } else {
-                if (data.getClipData() != null) {
-                    ClipData mClipData = data.getClipData();
-                    for (int i = 0; i < mClipData.getItemCount(); i++) {
-                        Uri uri = mClipData.getItemAt(i).getUri();
-                        mArrayUri.add(uri);
-                    }
-                    Log.i(TAG, "Selected Images" + mArrayUri.size());
-                }
+            for (int i = 0; i < images.size(); i++) {
+                String path = images.get(i).getPath();
+                Uri uri = Uri.fromFile(new File(path));
+                mArrayUri.add(uri);
             }
-
             StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(1, LinearLayoutManager.HORIZONTAL);
             recyclerViewImages.setLayoutManager(staggeredGridLayoutManager); // set LayoutManager to RecyclerView
 
