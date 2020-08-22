@@ -63,6 +63,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
         final Post post = arrayList.get(position);
 
+        if (!post.getUserId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+            holder.buttonViewOption.setVisibility(View.GONE);
+        }
         holder.title.setText(post.getTitle());
         holder.bathroomNum.setText(post.getBathroomsNum() + " حمام ");
         holder.area.setText(post.getArea() + " m² ");

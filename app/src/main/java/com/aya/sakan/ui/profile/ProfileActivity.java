@@ -227,8 +227,10 @@ public class ProfileActivity extends AppCompatActivity implements IProfilePresen
         }
         Glide.with(this).applyDefaultRequestOptions(placeholderOption).load(userImg).into(userImgCircleImageView);
 
-        // set User Name
-        userNameEditText.setText(userName);
+        if (userName != null && !userName.isEmpty())
+            userNameEditText.setText(userName);
+        else
+            userNameEditText.setText("Enter your name");
 
     }
 
